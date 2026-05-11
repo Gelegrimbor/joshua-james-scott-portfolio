@@ -1,840 +1,1411 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Joshua James Scott - Full Stack Developer Portfolio</title>
-    <meta name="description"
-        content="Full Stack Developer specializing in React, Node.js, and TypeScript. Building scalable web and mobile applications." />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Joshua James Scott — Full Stack Developer & Automation Engineer</title>
+<meta name="description" content="Full Stack Developer & Automation Engineer. React, TypeScript, n8n workflow automation. Kuala Lumpur, Malaysia."/>
+<meta property="og:title" content="Joshua James Scott — Full Stack Developer & Automation Engineer"/>
+<meta property="og:description" content="Building production web apps and automation systems. Based in Kuala Lumpur."/>
+<meta property="og:type" content="website"/>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════
+   TOKENS
+═══════════════════════════════════ */
+:root {
+  --bg:        #0b0c0f;
+  --bg-2:      #111318;
+  --bg-3:      #171a20;
+  --lime:      #a3e635;
+  --lime-dim:  #6ea81f;
+  --lime-glow: rgba(163,230,53,0.15);
+  --white:     #eeecea;
+  --grey-1:    #9a9590;
+  --grey-2:    #4a4844;
+  --border:    rgba(163,230,53,0.12);
+  --border-dim:rgba(255,255,255,0.06);
+}
 
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
+/* ═══════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════ */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+::selection { background: var(--lime); color: var(--bg); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--lime-dim); }
 
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Joshua James Scott - Full Stack Developer" />
-    <meta property="og:description" content="Full Stack Developer specializing in React, Node.js, and TypeScript" />
-    <meta property="og:type" content="website" />
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 4rem;
+  background: rgba(11,12,15,0.88);
+  border-bottom: 1px solid var(--border-dim);
+  backdrop-filter: blur(16px);
+  transition: padding 0.3s ease;
+}
+nav.shrunk { padding: 0.75rem 4rem; }
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--lime);
+  letter-spacing: 0.05em;
+}
+.nav-logo span { opacity: 0.5; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--grey-1);
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--lime); }
+.nav-cv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--lime);
+  padding: 0.5rem 1.25rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cv:hover { background: #b8f050; transform: translateY(-1px); }
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 0 4rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 55% at 85% 45%, rgba(163,230,53,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 35% at 5% 85%, rgba(163,230,53,0.03) 0%, transparent 60%);
+}
+.hero-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(163,230,53,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.hero-line {
+  width: 2px; height: 64px;
+  background: linear-gradient(to bottom, transparent, var(--lime));
+  margin-bottom: 1.75rem;
+  opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+}
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 1.2rem;
+  opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+}
+.hero-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+  font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;
+  color: var(--white); margin-bottom: 0.5rem;
+  opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+}
+.hero-name .cursor {
+  display: inline-block; width: 3px; height: 0.85em;
+  background: var(--lime); vertical-align: middle; margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+.hero-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 400; color: var(--lime);
+  letter-spacing: 0.02em; margin-bottom: 1.25rem;
+  opacity: 0; animation: fadeUp 0.7s 0.68s forwards;
+}
+.hero-desc {
+  font-size: 1rem; font-weight: 300;
+  color: var(--grey-1); max-width: 500px; margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+  line-height: 1.75;
+}
+.hero-ctas {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.7s 0.95s forwards;
+}
+.btn-lime {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--lime); color: var(--bg);
+  padding: 0.85rem 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-lime:hover { background: #b8f050; transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border: 1px solid var(--border);
+  color: var(--grey-1);
+  padding: 0.85rem 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-outline:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-2px); }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 4rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  color: var(--grey-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 0.7s 1.2s forwards;
+}
+.scroll-line {
+  width: 36px; height: 1px; background: var(--lime-dim); opacity: 0.5;
+  animation: expandLine 1s 1.4s both;
+}
+@keyframes expandLine { from { width: 0; } to { width: 36px; } }
 
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#22d3ee",
-                        "success": "#10b981",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#0f172a",
-                    },
-                    fontFamily: {
-                        "display": ["Space Grotesk", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'float-delay-1': 'float 7s ease-in-out infinite 1s',
-                        'float-delay-2': 'float 8s ease-in-out infinite 0.5s',
-                        'fade-in': 'fadeIn 1.5s ease-in-out forwards',
-                        'bounce-slow': 'bounce 2s infinite',
-                        'glow': 'glow 4s ease-in-out infinite',
-                        'float-1': 'float 6s ease-in-out infinite',
-                        'float-2': 'float 8s ease-in-out infinite 1s',
-                        'float-3': 'float 7s ease-in-out infinite 0.5s',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        glow: {
-                            "0%, 100%": { boxShadow: "0 0 5px #22d3ee, 0 0 10px #22d3ee, 0 0 15px #22d3ee" },
-                            "50%": { boxShadow: "0 0 10px #22d3ee, 0 0 20px #22d3ee, 0 0 30px #22d3ee" }
-                        },
-                    },
-                },
-            },
-        }
-    </script>
+/* ═══════════════════════════════════
+   STATS BAR
+═══════════════════════════════════ */
+#stats {
+  padding: 4rem;
+  border-top: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--border-dim);
+  background: var(--bg-2);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.stat-item {
+  padding: 1.5rem 2rem;
+  border-right: 1px solid var(--border-dim);
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item.visible { opacity: 1; transform: none; }
+.stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.8rem; font-weight: 800; line-height: 1;
+  color: var(--lime); display: block; margin-bottom: 0.4rem;
+  letter-spacing: -0.03em;
+}
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--grey-1); line-height: 1.5;
+}
 
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
+/* ═══════════════════════════════════
+   SECTION COMMON
+═══════════════════════════════════ */
+section { padding: 7rem 4rem; }
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 0.75rem; display: block;
+}
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700; line-height: 1.15; color: var(--white);
+  margin-bottom: 3.5rem; letter-spacing: -0.02em;
+}
+.section-title em { font-style: normal; color: var(--lime); }
 
-        .text-glow {
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 20px rgba(124, 58, 237, 0.3);
-        }
+/* ═══════════════════════════════════
+   EXPERIENCE TIMELINE
+═══════════════════════════════════ */
+#experience { background: var(--bg-2); }
+.timeline {
+  position: relative;
+  max-width: 820px;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 1px; background: var(--border);
+}
+.timeline-item {
+  padding-left: 3rem; margin-bottom: 4rem;
+  position: relative;
+  opacity: 0; transform: translateX(-16px);
+  transition: opacity 0.7s, transform 0.7s;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-item.visible { opacity: 1; transform: none; }
+.timeline-dot {
+  position: absolute; left: -5px; top: 8px;
+  width: 11px; height: 11px;
+  background: var(--bg-2); border: 1px solid var(--lime-dim);
+}
+.timeline-dot.active {
+  background: var(--lime);
+  box-shadow: 0 0 12px rgba(163,230,53,0.4);
+}
+.timeline-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--lime); letter-spacing: 0.1em;
+  margin-bottom: 0.35rem;
+}
+.timeline-role {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem; font-weight: 700; color: var(--white);
+  margin-bottom: 0.2rem; letter-spacing: -0.01em;
+}
+.timeline-company {
+  font-size: 0.85rem; color: var(--grey-1);
+  margin-bottom: 0.85rem; letter-spacing: 0.02em;
+}
+.timeline-badge {
+  display: inline-block;
+  background: rgba(163,230,53,0.1);
+  border: 1px solid rgba(163,230,53,0.25);
+  color: var(--lime);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; padding: 0.2rem 0.65rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.timeline-list {
+  list-style: none; display: flex; flex-direction: column; gap: 0.45rem;
+}
+.timeline-list li {
+  font-size: 0.87rem; color: var(--grey-1);
+  padding-left: 1rem; position: relative; line-height: 1.65;
+}
+.timeline-list li::before {
+  content: '→';
+  position: absolute; left: 0; color: var(--lime); opacity: 0.6;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+}
+.timeline-list li strong { color: var(--white); font-weight: 500; }
+.timeline-tags {
+  display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem;
+}
+.t-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--grey-1); border: 1px solid var(--border-dim);
+  padding: 0.2rem 0.6rem; background: var(--bg-3);
+}
 
-        .btn-glow:hover {
-            box-shadow: 0 0 15px 5px rgba(34, 211, 238, 0.3), 0 0 5px 2px rgba(34, 211, 238, 0.4);
-        }
+/* ═══════════════════════════════════
+   PROJECTS
+═══════════════════════════════════ */
+#projects { background: var(--bg); }
+.proj-header {
+  display: flex; align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.tab-bar {
+  display: flex; gap: 0; border: 1px solid var(--border-dim);
+}
+.tab-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.55rem 1.25rem; cursor: pointer; border: none;
+  background: transparent; color: var(--grey-1);
+  transition: all 0.2s; border-right: 1px solid var(--border-dim);
+}
+.tab-btn:last-child { border-right: none; }
+.tab-btn.active { background: var(--lime); color: var(--bg); }
+.tab-btn:not(.active):hover { color: var(--lime); }
 
-        .scanlines::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05) 50%, transparent);
-            background-size: 100% 3px;
-            opacity: 0.1;
-            pointer-events: none;
-            z-index: 1;
-        }
+/* Project grid — 3 col editorial gap grid */
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  border: 1px solid var(--border-dim);
+  display: none;
+}
+.proj-grid.active { display: grid; }
 
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
+.proj-card {
+  background: var(--bg);
+  padding: 2rem;
+  display: flex; flex-direction: column;
+  transition: background 0.2s;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+}
+.proj-card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--lime);
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.3s ease;
+}
+.proj-card:hover { background: var(--bg-2); }
+.proj-card:hover::before { transform: scaleY(1); }
 
-        .ripple:focus:not(:active)::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-            animation: ripple 1s ease-out;
-        }
+.proj-card-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+.proj-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.2rem 0.6rem; border: 1px solid;
+}
+.badge-prod { color: var(--lime); border-color: rgba(163,230,53,0.35); background: rgba(163,230,53,0.06); }
+.badge-live { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.05); }
+.badge-int  { color: var(--grey-1); border-color: var(--border-dim); background: transparent; }
+.badge-cap  { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.05); }
 
-        @keyframes ripple {
-            0% {
-                transform: scale(0, 0) translate(-50%, -50%);
-                opacity: 1;
-            }
+.proj-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; color: var(--grey-2);
+}
+.proj-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem; font-weight: 700; color: var(--white);
+  margin-bottom: 0.6rem; letter-spacing: -0.01em; line-height: 1.3;
+}
+.proj-desc {
+  font-size: 0.84rem; color: var(--grey-1);
+  line-height: 1.65; margin-bottom: 1rem; flex-grow: 1;
+}
+.proj-bullets {
+  list-style: none; margin-bottom: 1.1rem;
+  display: flex; flex-direction: column; gap: 0.3rem;
+}
+.proj-bullets li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--grey-2); letter-spacing: 0.02em;
+}
+.proj-bullets li::before { content: '▸ '; color: var(--lime-dim); }
+.proj-tags {
+  display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.25rem;
+}
+.proj-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.06em;
+  color: var(--grey-1); border: 1px solid var(--border-dim);
+  padding: 0.15rem 0.55rem; background: var(--bg-3);
+}
+.proj-footer {
+  border-top: 1px solid var(--border-dim);
+  padding-top: 0.85rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.proj-internal {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; color: var(--grey-2); font-style: italic;
+}
+.proj-links { display: flex; gap: 0.5rem; }
+.proj-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--grey-1); text-decoration: none;
+  border: 1px solid var(--border-dim);
+  padding: 0.25rem 0.65rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.proj-link:hover { border-color: var(--lime); color: var(--lime); }
+.proj-link.primary {
+  background: var(--lime); color: var(--bg);
+  border-color: var(--lime);
+}
+.proj-link.primary:hover { background: #b8f050; }
 
-            20% {
-                transform: scale(25, 25) translate(-50%, -50%);
-                opacity: 1;
-            }
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
+#about {
+  background: var(--bg-2);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: center;
+}
+.about-tag { margin-bottom: 0.75rem; }
+.about-title { margin-bottom: 1.75rem; }
+.about-body p {
+  font-size: 0.93rem; color: var(--grey-1);
+  margin-bottom: 1.1rem; line-height: 1.8;
+}
+.about-body p strong { color: var(--white); font-weight: 500; }
+.cred-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border-dim);
+  border: 1px solid var(--border-dim);
+}
+.cred-item {
+  background: var(--bg-2);
+  padding: 1.25rem 1.5rem;
+  transition: background 0.2s;
+}
+.cred-item:hover { background: var(--bg-3); }
+.cred-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 0.35rem; display: block;
+}
+.cred-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; color: var(--white); line-height: 1.4;
+}
 
-            100% {
-                opacity: 0;
-                transform: scale(40, 40) translate(-50%, -50%);
-            }
-        }
+/* ═══════════════════════════════════
+   CONTACT
+═══════════════════════════════════ */
+#contact {
+  background: var(--bg);
+  text-align: center;
+  padding: 8rem 4rem;
+}
+#contact .section-title { margin-bottom: 0.75rem; }
+.contact-sub {
+  font-size: 0.93rem; color: var(--grey-1);
+  margin-bottom: 3rem; max-width: 400px; margin-inline: auto;
+}
+.contact-links {
+  display: flex; justify-content: center;
+  flex-wrap: wrap; gap: 0.75rem; margin-bottom: 5rem;
+}
+.contact-link {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  color: var(--grey-1); text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.06em;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--border-dim);
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.contact-link:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-2px); }
+.contact-link svg { width: 14px; height: 14px; opacity: 0.7; }
 
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
+/* ═══════════════════════════════════
+   MINI GAME
+═══════════════════════════════════ */
+.game-section {
+  background: var(--bg-2);
+  border-top: 1px solid var(--border-dim);
+  padding: 3rem 4rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.game-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 0.75rem;
+}
+.game-label::before { content: '// '; opacity: 0.5; }
+.game-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem; font-weight: 700; color: var(--white);
+  margin-bottom: 0.35rem;
+}
+.game-sub {
+  font-size: 0.8rem; color: var(--grey-2); margin-bottom: 1.25rem;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+}
+#game-wrap {
+  position: relative;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+#gameCanvas {
+  display: block;
+  image-rendering: pixelated;
+}
+.game-start-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: rgba(11,12,15,0.92);
+  gap: 0.75rem;
+}
+.game-start-overlay h3 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem; font-weight: 800; color: var(--lime);
+  letter-spacing: 0.05em;
+}
+.game-start-overlay p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; color: var(--grey-1); letter-spacing: 0.08em;
+}
+.game-start-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--lime); color: var(--bg);
+  border: none; padding: 0.65rem 2rem; cursor: pointer; margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+.game-start-btn:hover { background: #b8f050; }
+.game-hiscore {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--grey-2); margin-top: 0.75rem; letter-spacing: 0.1em;
+}
 
-        .card-glow:hover {
-            box-shadow: 0 0 20px #22d3ee4d;
-        }
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+footer {
+  padding: 1.75rem 4rem;
+  border-top: 1px solid var(--border-dim);
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg);
+}
+footer p, footer a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; color: var(--grey-2); opacity: 0.6;
+  text-decoration: none; letter-spacing: 0.06em;
+}
+footer a:hover { color: var(--lime); opacity: 1; }
 
-        .pixel-corner {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background-image:
-                linear-gradient(to right, currentColor 4px, transparent 4px),
-                linear-gradient(to bottom, currentColor 4px, transparent 4px);
-            background-repeat: no-repeat;
-        }
+/* ═══════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-        .pixel-corner-tl {
-            top: -2px;
-            left: -2px;
-            background-position: top left;
-        }
+/* ═══════════════════════════════════
+   REVEAL HELPERS
+═══════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
 
-        .pixel-corner-tr {
-            top: -2px;
-            right: -2px;
-            background-position: top right;
-        }
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+@media (max-width: 1024px) {
+  .proj-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  nav { padding: 1rem 2rem; }
+  nav.shrunk { padding: 0.7rem 2rem; }
+  .nav-links { display: none; }
+  #hero, section, #contact, .game-section, footer { padding-left: 2rem; padding-right: 2rem; }
+  #about { grid-template-columns: 1fr; gap: 3rem; padding-left: 2rem; padding-right: 2rem; }
+  #stats { padding: 3rem 2rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border-dim); }
+  .stat-item:nth-child(odd) { border-right: 1px solid var(--border-dim); }
+  .proj-grid { grid-template-columns: 1fr; }
+  .proj-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 600px) {
+  /* ── Nav: hide CV button text, show icon only ── */
+  nav { padding: 0.85rem 1.25rem; gap: 0; }
+  nav.shrunk { padding: 0.6rem 1.25rem; }
+  .nav-cv { padding: 0.45rem 0.75rem; font-size: 0.62rem; letter-spacing: 0.06em; }
 
-        .pixel-corner-bl {
-            bottom: -2px;
-            left: -2px;
-            background-position: bottom left;
-        }
+  /* ── Hero: push content down past nav, no absolute scroll hint ── */
+  #hero {
+    padding: 0 1.25rem;
+    padding-top: 5.5rem;
+    padding-bottom: 3rem;
+    min-height: 100svh;
+    justify-content: flex-start;
+  }
+  .hero-scroll { display: none; }
+  .hero-line { height: 40px; margin-bottom: 1.25rem; }
+  .hero-name { font-size: clamp(2rem, 10vw, 3rem); }
+  .hero-role { font-size: 0.9rem; }
+  .hero-desc { font-size: 0.88rem; max-width: 100%; margin-bottom: 2rem; }
+  .hero-ctas { flex-direction: column; gap: 0.65rem; }
+  .btn-lime, .btn-outline { justify-content: center; width: 100%; padding: 0.9rem; font-size: 0.7rem; }
 
-        .pixel-corner-br {
-            bottom: -2px;
-            right: -2px;
-            background-position: bottom right;
-        }
+  /* ── Stats ── */
+  #stats { padding: 2rem 1.25rem; }
+  .stat-number { font-size: 2.2rem; }
 
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 15% 25%, rgba(34, 211, 238, 0.1) 1px, transparent 0),
-                radial-gradient(circle at 80% 10%, rgba(124, 58, 237, 0.1) 1px, transparent 0),
-                radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.05) 1px, transparent 0),
-                radial-gradient(circle at 25% 75%, rgba(124, 58, 237, 0.1) 1px, transparent 0),
-                radial-gradient(circle at 90% 85%, rgba(34, 211, 238, 0.1) 1px, transparent 0);
-            background-size: 200px 200px;
-            animation: move-particles 20s linear infinite;
-            z-index: 0;
-        }
+  /* ── Sections ── */
+  section, #contact, .game-section, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+  #about { padding-left: 1.25rem; padding-right: 1.25rem; }
+  section { padding-top: 4rem; padding-bottom: 4rem; }
+  .section-title { font-size: 1.5rem; margin-bottom: 2rem; }
 
-        @keyframes move-particles {
-            0% {
-                background-position: 0 0;
-            }
+  /* ── Timeline ── */
+  .timeline-item { padding-left: 2rem; margin-bottom: 2.5rem; }
+  .timeline-role { font-size: 1rem; }
+  .timeline-list li { font-size: 0.82rem; }
+  .timeline-tags { gap: 0.25rem; }
 
-            100% {
-                background-position: 200px 200px;
-            }
-        }
+  /* ── Contact ── */
+  .contact-links { flex-direction: column; align-items: stretch; }
+  .contact-link { justify-content: center; font-size: 0.68rem; }
 
-        /* Navigation styles */
-        .nav-hidden {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
+  /* ── Footer ── */
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem 1.25rem; }
 
-        .nav-visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
+  /* ── Game canvas ── */
+  #game-wrap { width: 100%; }
+  #gameCanvas { width: 100% !important; height: auto !important; aspect-ratio: 560/320; }
 
-        nav a.active {
-            color: #22d3ee;
-            text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
-        }
+  /* ── Touch controls ── */
+  #touch-controls { display: flex !important; }
+}
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
-        }
-    </style>
+/* Touch controls — hidden on desktop */
+#touch-controls {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 560px;
+}
+.touch-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem; font-weight: 700;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--lime);
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  min-width: 72px;
+  text-align: center;
+  transition: background 0.1s;
+}
+.touch-btn:active, .touch-btn.pressed { background: rgba(163,230,53,0.15); }
+.touch-fire {
+  background: rgba(163,230,53,0.1);
+  border-color: var(--lime);
+  flex: 1;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+}
+</style>
 </head>
+<body>
 
-<body class="font-display bg-background-dark text-gray-200">
+<!-- NAV -->
+<nav id="main-nav">
+  <span class="nav-logo"><span>&gt;_</span> jjscott</span>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="Joshua-James-Scott-Resume.pdf" download class="nav-cv">Download CV</a>
+</nav>
 
-    <!-- Fixed Navigation Bar -->
-    <header id="navbar"
-        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 bg-black/10 px-4 py-3 backdrop-blur-md sm:px-10 lg:px-20 transition-all duration-300 nav-hidden">
-        <div class="flex items-center gap-4">
-            <svg class="size-6 text-violet-400" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"
-                    fill="currentColor"></path>
-            </svg>
-            <h2 class="hidden text-lg font-bold tracking-[-0.015em] text-gray-200 sm:block">Joshua James Scott</h2>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-line"></div>
+  <p class="hero-eyebrow">Status: Available_for_hire &nbsp;·&nbsp; Kuala Lumpur, MY</p>
+  <h1 class="hero-name">Joshua James Scott<span class="cursor"></span></h1>
+  <p class="hero-role">Full Stack Developer + Automation Engineer</p>
+  <p class="hero-desc">Building production web apps and n8n workflow automation systems. React, TypeScript, API integrations — shipping things that actually hold up.</p>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn-lime">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
+      View Projects
+    </a>
+    <a href="Joshua-James-Scott-Resume.pdf" download class="btn-outline">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Resume PDF
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-number" data-target="1" data-suffix="+">0</span>
+      <span class="stat-label">Years of<br>Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="7">0</span>
+      <span class="stat-label">Projects<br>Shipped</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="15" data-suffix="+">0</span>
+      <span class="stat-label">Technologies<br>Mastered</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="2">0</span>
+      <span class="stat-label">Companies<br>Worked At</span>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <span class="section-tag">Career Log</span>
+  <h2 class="section-title">A record of <em>real</em> production work</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot active"></div>
+      <p class="timeline-period">Jan 2026 — Present</p>
+      <h3 class="timeline-role">AI & Automation Developer</h3>
+      <p class="timeline-company">Media Prima Audio (Audio+) · Kuala Lumpur</p>
+      <span class="timeline-badge">Current Role</span>
+      <ul class="timeline-list">
+        <li>Designed and built <strong>9 production n8n workflows</strong> covering studio booking operations, guest clearance, multi-stakeholder email routing, reminders, and error monitoring</li>
+        <li>Integrated <strong>Meta Graph API, SendGrid, Supabase, Google Sheets</strong>, and Google Calendar into multi-step automated pipelines</li>
+        <li>Extended and rebuilt Instagram DM automation into a two-stage conversation flow with Google Sheets campaign config layer</li>
+        <li>Owned full project lifecycle — requirements, architecture, build, debugging, and production deployment</li>
+      </ul>
+      <div class="timeline-tags">
+        <span class="t-tag">n8n</span><span class="t-tag">JavaScript</span><span class="t-tag">SendGrid</span>
+        <span class="t-tag">Meta Graph API</span><span class="t-tag">Supabase</span><span class="t-tag">Google Sheets</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <p class="timeline-period">Sep 2025 — Jan 2026</p>
+      <h3 class="timeline-role">Frontend JS Developer Intern</h3>
+      <p class="timeline-company">Studio20 · Kuala Lumpur</p>
+      <ul class="timeline-list">
+        <li>Built <strong>SuperAdmin Schools Management</strong> — full CRUD, form validation, role-based permissions across multiple admin panels</li>
+        <li>Developed React Native mobile homepage with custom circular progress components and tab-based navigation</li>
+        <li>Built <strong>AI-powered invoice automation</strong> using Zapier + Xero API, saving ~23 hrs/month of manual finance work across 6 company entities</li>
+      </ul>
+      <div class="timeline-tags">
+        <span class="t-tag">React</span><span class="t-tag">TypeScript</span><span class="t-tag">Next.js</span>
+        <span class="t-tag">React Native</span><span class="t-tag">Zapier</span><span class="t-tag">Xero API</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <p class="timeline-period">Feb 2025 — Apr 2025</p>
+      <h3 class="timeline-role" style="font-size:0.95rem; opacity:0.6;">Full Stack Web Development Certificate</h3>
+      <p class="timeline-company" style="opacity:0.5;">Sigma School Coding Bootcamp · 12-week intensive</p>
+      <p style="font-size:0.82rem; color:var(--grey-2); margin-top:0.3rem;">JS, React, Node.js, Express, Firebase, SQL · Capstone: QuestLog</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="proj-header reveal">
+    <div>
+      <span class="section-tag">Deployed Modules</span>
+      <h2 class="section-title" style="margin-bottom:0;">Completed <em>quests</em></h2>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('field')">Field Work [3]</button>
+      <button class="tab-btn" onclick="switchTab('side')">Side Quests [3]</button>
+    </div>
+  </div>
+
+  <!-- Field Work -->
+  <div class="proj-grid active" id="grid-field">
+
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-prod">[Production]</span>
+        <span class="proj-date">Jan 2026</span>
+      </div>
+      <h3 class="proj-title">Studio_Booking_<br>Automation</h3>
+      <p class="proj-desc">End-to-end automation for studio booking operations — guest clearance, multi-stakeholder email routing, 24hr reminders, retargeting, and real-time error monitoring. 9 workflows in production.</p>
+      <ul class="proj-bullets">
+        <li>9-workflow pipeline · zero manual steps</li>
+        <li>Dynamic form with runtime field generation</li>
+        <li>Error alerts + manual recovery fallback</li>
+      </ul>
+      <div class="proj-tags">
+        <span class="proj-tag">n8n</span><span class="proj-tag">JS</span><span class="proj-tag">SendGrid</span>
+        <span class="proj-tag">Supabase</span><span class="proj-tag">Google Sheets</span>
+      </div>
+      <div class="proj-footer">
+        <span class="proj-internal">Internal · Media Prima Audio</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-prod">[Production]</span>
+        <span class="proj-date">Mar 2026</span>
+      </div>
+      <h3 class="proj-title">Instagram_DM_<br>Automation</h3>
+      <p class="proj-desc">Extended an Instagram keyword-trigger workflow into a two-stage DM conversation flow. Google Sheets campaign config — no code changes needed to update campaigns. Auto post ID capture on new publish.</p>
+      <ul class="proj-bullets">
+        <li>Two-stage DM via Meta Graph API webhooks</li>
+        <li>Sheets config · no-code campaign updates</li>
+        <li>Auto post ID capture on new publish</li>
+      </ul>
+      <div class="proj-tags">
+        <span class="proj-tag">n8n</span><span class="proj-tag">Meta API</span>
+        <span class="proj-tag">Instagram</span><span class="proj-tag">Webhooks</span>
+      </div>
+      <div class="proj-footer">
+        <span class="proj-internal">Internal · Media Prima Audio</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-int">[Internship]</span>
+        <span class="proj-date">Dec 2025</span>
+      </div>
+      <h3 class="proj-title">AI_Invoice_<br>Automation</h3>
+      <p class="proj-desc">AI pipeline extracting supplier PDF invoices, routing across 6 company entities, creating Xero draft bills with attachments. Saved ~23 hours/month of manual finance work. ~95% automation rate.</p>
+      <ul class="proj-bullets">
+        <li>AI PDF extraction · multi-company routing</li>
+        <li>Xero API · auto-attach invoice PDFs</li>
+        <li>~95% automation · ~23 hrs/month saved</li>
+      </ul>
+      <div class="proj-tags">
+        <span class="proj-tag">Zapier</span><span class="proj-tag">AI Extraction</span>
+        <span class="proj-tag">Xero API</span><span class="proj-tag">Gmail</span>
+      </div>
+      <div class="proj-footer">
+        <span class="proj-internal">Internal · Studio20</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Side Quests -->
+  <div class="proj-grid" id="grid-side">
+
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-live">[Live]</span>
+        <span class="proj-date">Nov 2025</span>
+      </div>
+      <h3 class="proj-title">AI_Voice_<br>Assistant</h3>
+      <p class="proj-desc">Conversational AI you can talk to. Real-time speech-to-text, Claude-powered responses, ElevenLabs TTS output. Multi-turn dialogue with conversation history and 6 voice options.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">React</span><span class="proj-tag">TypeScript</span>
+        <span class="proj-tag">Claude API</span><span class="proj-tag">ElevenLabs</span><span class="proj-tag">Web Speech API</span>
+      </div>
+      <div class="proj-footer">
+        <div class="proj-links">
+          <a href="https://jjs-voice-assistant.vercel.app" target="_blank" rel="noopener" class="proj-link primary">Live Demo</a>
+          <a href="https://github.com/Gelegrimbor/jjs-voice-assistant" target="_blank" rel="noopener" class="proj-link">Source</a>
         </div>
-        <nav class="flex items-center gap-6 text-gray-300 sm:gap-9">
-            <a class="text-sm font-medium leading-normal transition-colors hover:text-white"
-                href="#projects">Projects</a>
-            <a class="text-sm font-medium leading-normal transition-colors hover:text-white" href="#about">About</a>
-            <a class="text-sm font-medium leading-normal transition-colors hover:text-white" href="#contact">Contact</a>
-        </nav>
-    </header>
+      </div>
+    </div>
 
-    <!-- HERO SECTION -->
-    <section id="hero" class="relative flex w-full flex-col overflow-x-hidden">
-        <div
-            class="relative flex min-h-screen flex-col bg-gradient-to-br from-slate-900 to-violet-700 text-gray-100 scanlines">
-            <div class="absolute inset-0 z-0 opacity-10"
-                style="background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px), linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px); background-size: 20px 20px;">
-            </div>
-            <div class="absolute inset-0 z-0 overflow-hidden">
-                <div class="absolute top-[10%] left-[15%] h-16 w-16 animate-float rounded-full bg-pink-500/10"></div>
-                <div class="absolute top-[20%] right-[10%] h-12 w-12 animate-float-delay-1 bg-cyan-500/10"
-                    style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-                <div
-                    class="absolute bottom-[15%] left-[25%] h-20 w-20 animate-float-delay-2 rounded-md bg-yellow-500/10">
-                </div>
-                <div
-                    class="absolute bottom-[25%] right-[20%] h-8 w-8 animate-float-delay-1 rounded-full bg-green-500/10">
-                </div>
-                <div class="absolute top-[60%] left-[5%] h-10 w-10 animate-float bg-indigo-500/10"
-                    style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-                <div class="absolute top-[70%] right-[30%] h-14 w-14 animate-float-delay-2 rounded-md bg-red-500/10">
-                </div>
-            </div>
-
-            <main class="relative z-10 flex flex-1 items-center justify-center py-24 sm:py-32">
-                <div class="flex max-w-4xl flex-1 flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-                    <img alt="Pixel art corner decoration"
-                        class="absolute top-4 left-4 h-16 w-16 opacity-30 sm:top-8 sm:left-8"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTPL_9k7fqQvsAllndT2_KzvARzT1QNOTyO4xNAzfneqR3ZdQQq_5tgNkFIqKto_sq_58xcVLFgslOnmKkF4i3Jdw9ylPLseuP8ApS1u8L_nw2Jf8kug3gIfWq83BOGlmsQJLN8ifEmbysLYnJtDwNFX8rqznnv4TMlhvVonHq7Zi2L9SSeSTCaaVUetHHBeSfSoaueWeSpLTRc7g6W2eUbU1bYn6ROK9DZ9Y1qLJliMfIOpBAgclFSKqalmc-QkgLvxv6-OkeTF4" />
-                    <img alt="Pixel art corner decoration"
-                        class="absolute bottom-4 right-4 h-16 w-16 opacity-30 sm:bottom-8 sm:right-8"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqczMLHxWtm2VR_Z75jWBt4Nopu5Bj99rnhVQoHE4oj-4Q6vIbtO6OUNRmtIOw8PJvW8ccj_e7q5l-pOLdMPOaonpMspa4lUDv0X1ruVfh2Wo8s1mMi-4-HMA7ZBEYVIBj34OkYsaO6okeAQjhEJ12Y6ayIr59hAA_0rxLIKIUyoEbyVN6oeBU1Btjmu5n0WVK52BMDJOB1v-H2empLXMiiI1CZ14N0_G3sieKMq8fhdhVHaU70DQMO6tc1djRzoazMjzpnJ9lGmY" />
-
-                    <h1
-                        class="text-glow pb-4 pt-8 text-6xl font-extrabold leading-tight tracking-tighter text-gray-50 sm:text-7xl md:text-8xl">
-                        Joshua James Scott</h1>
-
-                    <div class="min-h-[3.5rem] sm:min-h-[4rem] mb-4 flex items-center justify-center">
-                        <h2
-                            class="fade-in bg-gradient-to-r from-emerald-500 to-cyan-400 bg-clip-text px-4 pt-2 pb-3 text-2xl font-bold tracking-[-0.015em] text-transparent sm:text-3xl md:text-4xl">
-                            Full Stack Developer
-                        </h2>
-                    </div>
-
-                    <p class="max-w-2xl px-4 pt-1 pb-10 text-base font-normal leading-normal text-gray-300 sm:text-lg">
-                        Building scalable applications with React, Node.js, and TypeScript</p>
-
-                    <div class="flex w-full max-w-md flex-col gap-4 px-4 py-3 sm:flex-row">
-                        <a href="#projects"
-                            class="btn-glow flex h-14 min-w-[84px] grow cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-cyan-500 px-8 text-lg font-bold leading-normal tracking-[0.015em] text-slate-900 transition-transform hover:-translate-y-1 hover:bg-cyan-400 sm:w-auto">
-                            <span class="material-symbols-outlined">code</span>
-                            <span class="truncate">View Projects</span>
-                        </a>
-                        <a href="Joshua-James-Scott-Resume.pdf" download
-                            class="ripple flex h-14 min-w-[84px] grow cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border-2 border-white/50 bg-transparent px-8 text-lg font-bold leading-normal tracking-[0.015em] text-gray-200 transition-all hover:border-white hover:bg-white/10 sm:w-auto">
-                            <span class="material-symbols-outlined">download</span>
-                            <span class="truncate">Download Resume</span>
-                        </a>
-                    </div>
-
-                    <div class="mt-12 flex flex-col items-center gap-6">
-                        <div
-                            class="inline-flex items-center gap-2 rounded-full bg-black/20 px-4 py-2 text-sm font-medium text-emerald-300 backdrop-blur-sm">
-                            <img alt="Quest marker icon" class="h-4 w-4"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0xlVoPNyHicTQeWhWPIXEYWDXlzutMNQEeOj9-CuGBlRKpyqMlmH6ZKW7IhQu0sOYXBdcxKDQm_p9lEe9KNRynrxg8u3XUypS0W0jFs9FE6jhbbermMotSkRV19_Lnp5XF1BMMjA42ObaO3HQjp6rZKYok6qI2d92fmMekWt3mKK8rgqWyLa5eZMmZ4J6mEpMJ9B9TPw7q3banoJaBI90VGjHnVs0LKMhlXddcmf3Nc-IrfYvHjRk8E7qMbGEpNf7s2vmCJbSWF0" />
-                            <span>Kuala Lumpur, Malaysia</span>
-                        </div>
-                        <div class="flex items-center gap-6 text-gray-400">
-                            <a class="transition-colors hover:text-white" href="https://github.com/Gelegrimbor"
-                                target="_blank" rel="noopener noreferrer">
-                                <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path clip-rule="evenodd"
-                                        d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"
-                                        fill-rule="evenodd"></path>
-                                </svg>
-                            </a>
-                            <a class="transition-colors hover:text-white"
-                                href="https://linkedin.com/in/joshua-james-scott-11a616151" target="_blank"
-                                rel="noopener noreferrer">
-                                <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.62 1.62 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="transition-colors hover:text-white" href="mailto:joshuas1177@gmail.com">
-                                <span class="material-symbols-outlined text-2xl">mail</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            <div
-                class="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1 text-gray-400 opacity-70">
-                <span class="text-xs font-medium">Scroll to explore</span>
-                <span class="material-symbols-outlined animate-bounce-slow">arrow_downward</span>
-            </div>
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-live">[Live]</span>
+        <span class="proj-date">Nov 2025</span>
+      </div>
+      <h3 class="proj-title">Cafe_Finder</h3>
+      <p class="proj-desc">Location-based cafe discovery using Google Maps & Places API. GPS positioning, 3km radius search, custom filtering algorithm cutting non-cafe results by 40%.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">JavaScript</span><span class="proj-tag">Google Maps API</span>
+        <span class="proj-tag">Places API</span><span class="proj-tag">Geolocation</span>
+      </div>
+      <div class="proj-footer">
+        <div class="proj-links">
+          <a href="https://jjs-cafe-finder.vercel.app" target="_blank" rel="noopener" class="proj-link primary">Live Demo</a>
+          <a href="https://github.com/Gelegrimbor/jjs-cafe-finder" target="_blank" rel="noopener" class="proj-link">Source</a>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- ABOUT SECTION -->
-    <section id="about"
-        class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center overflow-hidden p-4 sm:p-6 md:p-8 bg-gradient-to-br from-slate-900 to-violet-700">
-        <div class="absolute inset-0 z-0">
-            <div class="particle animate-float-1" style="width: 5px; height: 5px; top: 10%; left: 15%;"></div>
-            <div class="particle animate-float-2" style="width: 3px; height: 3px; top: 25%; left: 80%;"></div>
-            <div class="particle animate-float-3" style="width: 6px; height: 6px; top: 50%; left: 5%;"></div>
-            <div class="particle animate-float-1" style="width: 4px; height: 4px; top: 70%; left: 90%;"></div>
-            <div class="particle animate-float-2" style="width: 2px; height: 2px; top: 90%; left: 20%;"></div>
-            <div class="particle animate-float-3" style="width: 5px; height: 5px; top: 85%; left: 50%;"></div>
+    <div class="proj-card reveal">
+      <div class="proj-card-header">
+        <span class="proj-badge badge-cap">[Capstone]</span>
+        <span class="proj-date">Apr 2025</span>
+      </div>
+      <h3 class="proj-title">QuestLog</h3>
+      <p class="proj-desc">Turn your to-do list into an RPG. Complete tasks to earn XP and defeat enemies. Full-stack with Firebase Auth, PostgreSQL, and an OpenAI-powered AI assistant. Sigma School capstone project.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">React</span><span class="proj-tag">Firebase</span>
+        <span class="proj-tag">Node.js</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">OpenAI API</span>
+      </div>
+      <div class="proj-footer">
+        <div class="proj-links">
+          <a href="https://drive.google.com/drive/folders/1uSgpCY6Kpl-o5ggIwVHal-d2y01RTV9k?usp=sharing" target="_blank" rel="noopener" class="proj-link primary">View Demo</a>
+          <a href="https://github.com/Gelegrimbor/QuestLog-ToDo-List" target="_blank" rel="noopener" class="proj-link">Source</a>
         </div>
-        <div class="scanlines absolute inset-0 z-0"></div>
+      </div>
+    </div>
 
-        <div
-            class="layout-container relative z-10 w-full max-w-6xl rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 p-6 md:p-12">
-            <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-                <div class="flex flex-col items-center lg:col-span-5 lg:items-start">
-                    <div class="relative w-48 h-48 sm:w-64 sm:h-64">
-                        <div class="absolute inset-0 rounded-full bg-primary p-1 animate-glow">
-                            <div class="w-full h-full bg-center bg-no-repeat aspect-square bg-cover rounded-full bg-background-dark"
-                                style='background-image: url("images/profile.jpg");'></div>
-                        </div>
-                    </div>
-                </div>
+  </div>
+</section>
 
-                <div class="flex flex-col gap-8 lg:col-span-7">
-                    <div class="flex flex-col">
-                        <h1 class="text-white text-3xl font-bold tracking-tight md:text-4xl">The Backstory</h1>
-                        <p class="mt-4 text-gray-400 text-base font-normal leading-relaxed">
-                            My journey into development started with curiosity and turned into obsession. After
-                            completing an intensive coding bootcamp at Sigma School, I dove straight into building AI
-                            voice assistants, location-based apps, gamified productivity tools. I work primarily with
-                            React, Node.js, and TypeScript, but what really drives me is creating experiences that feel
-                            both powerful and effortless. Whether it's integrating AI or crafting the perfect UI, I'm
-                            always chasing that moment when everything just clicks.
-                        </p>
-                    </div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <span class="section-tag about-tag">About</span>
+    <h2 class="section-title about-title">The person<br>behind the <em>builds</em></h2>
+    <div class="about-body">
+      <p>Started with curiosity, turned into obsession. After a 12-week Sigma School bootcamp I went straight into building real production systems — AI voice assistants, location apps, gamified tools.</p>
+      <p>Now at Media Prima Audio as AI & Automation Developer. I split time between <strong>writing React/TypeScript frontends</strong> and building <strong>n8n workflows that handle real business operations</strong> at scale.</p>
+      <p>I care about the full picture: not just does it work, but <strong>does it hold up in production</strong>. Error monitoring, fallback mechanisms, clean code — not just shipping and hoping.</p>
+      <p>Outside work: League of Legends lore, stock investing, and whatever the next build will be.</p>
+    </div>
+  </div>
+  <div class="cred-grid reveal">
+    <div class="cred-item"><span class="cred-label">Role</span><span class="cred-value">AI & Automation<br>Developer</span></div>
+    <div class="cred-item"><span class="cred-label">Company</span><span class="cred-value">Media Prima<br>Audio (Audio+)</span></div>
+    <div class="cred-item"><span class="cred-label">Education</span><span class="cred-value">Sigma School<br>Full Stack Dev</span></div>
+    <div class="cred-item"><span class="cred-label">Based In</span><span class="cred-value">Kuala Lumpur<br>Malaysia</span></div>
+    <div class="cred-item"><span class="cred-label">Core Stack</span><span class="cred-value">React · TS · n8n<br>Node · Supabase</span></div>
+    <div class="cred-item"><span class="cred-label">Open To</span><span class="cred-value">New Opportunities<br>& Interesting Work</span></div>
+  </div>
+</section>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                        <div
-                            class="card-glow flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
-                            <div class="flex items-center gap-3">
-                                <p class="text-white tracking-light text-2xl font-bold leading-tight">2+ Months</p>
-                            </div>
-                            <p class="text-gray-400 text-base font-medium leading-normal">Professional Experience</p>
-                        </div>
-                        <div
-                            class="card-glow flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
-                            <div class="flex items-center gap-3">
-                                <p class="text-white tracking-light text-2xl font-bold leading-tight">4 Projects</p>
-                            </div>
-                            <p class="text-gray-400 text-base font-medium leading-normal">Built & Deployed</p>
-                        </div>
-                        <div
-                            class="card-glow flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10">
-                            <div class="flex items-center gap-3">
-                                <p class="text-white tracking-light text-2xl font-bold leading-tight">8+ Technologies
-                                </p>
-                            </div>
-                            <p class="text-gray-400 text-base font-medium leading-normal">Mastered</p>
-                        </div>
-                    </div>
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-tag">Establish Connection</span>
+  <h2 class="section-title">Open to the right <em>opportunity</em></h2>
+  <p class="contact-sub">Whether it's a dev role, an automation project, or just a conversation — I'd love to hear from you.</p>
+  <div class="contact-links">
+    <a href="mailto:joshuas1177@gmail.com" class="contact-link">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      joshuas1177@gmail.com
+    </a>
+    <a href="tel:+60123287352" class="contact-link">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.89a16 16 0 0 0 6.06 6.06l1.75-1.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +60 12-328 7352
+    </a>
+    <a href="https://github.com/Gelegrimbor" target="_blank" rel="noopener" class="contact-link">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" fill-rule="evenodd"/></svg>
+      github.com/Gelegrimbor
+    </a>
+    <a href="https://linkedin.com/in/joshua-james-scott-11a616151" target="_blank" rel="noopener" class="contact-link">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      linkedin.com/in/joshua-james-scott
+    </a>
+  </div>
+</section>
 
-                    <div class="flex flex-col gap-6">
-                        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Skill Tree</h2>
-                        <div class="flex flex-col gap-5">
-                            <div class="flex flex-col gap-2">
-                                <div class="flex gap-6 justify-between">
-                                    <p class="text-white text-base font-medium leading-normal">JavaScript/TypeScript</p>
-                                    <p class="text-primary text-sm font-medium leading-normal">90%</p>
-                                </div>
-                                <div class="rounded-full bg-white/10 h-2.5 w-full">
-                                    <div class="h-2.5 rounded-full bg-gradient-to-r from-primary to-success"
-                                        style="width: 90%;"></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div class="flex gap-6 justify-between">
-                                    <p class="text-white text-base font-medium leading-normal">React/Next.js</p>
-                                    <p class="text-primary text-sm font-medium leading-normal">85%</p>
-                                </div>
-                                <div class="rounded-full bg-white/10 h-2.5 w-full">
-                                    <div class="h-2.5 rounded-full bg-gradient-to-r from-primary to-success"
-                                        style="width: 85%;"></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div class="flex gap-6 justify-between">
-                                    <p class="text-white text-base font-medium leading-normal">Node.js/Python</p>
-                                    <p class="text-primary text-sm font-medium leading-normal">75%</p>
-                                </div>
-                                <div class="rounded-full bg-white/10 h-2.5 w-full">
-                                    <div class="h-2.5 rounded-full bg-gradient-to-r from-primary to-success"
-                                        style="width: 75%;"></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div class="flex gap-6 justify-between">
-                                    <p class="text-white text-base font-medium leading-normal">Figma/UI Design</p>
-                                    <p class="text-primary text-sm font-medium leading-normal">80%</p>
-                                </div>
-                                <div class="rounded-full bg-white/10 h-2.5 w-full">
-                                    <div class="h-2.5 rounded-full bg-gradient-to-r from-primary to-success"
-                                        style="width: 80%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- MINI GAME -->
+<div class="game-section">
+  <span class="game-label">Easter Egg</span>
+  <h3 class="game-title">SPACE_INVADERS.exe</h3>
+  <p class="game-sub" id="game-instructions">← → to move &nbsp;·&nbsp; SPACE to shoot &nbsp;·&nbsp; survive the wave</p>
+  <div id="game-wrap">
+    <canvas id="gameCanvas" width="560" height="320"></canvas>
+    <div class="game-start-overlay" id="gameOverlay">
+      <h3>SPACE_INVADERS</h3>
+      <p id="overlay-instructions">← → Move &nbsp;|&nbsp; SPACE Shoot</p>
+      <button class="game-start-btn" id="startBtn">[ INIT GAME ]</button>
+      <span id="hiScoreDisplay" class="game-hiscore"></span>
+    </div>
+    <div class="game-start-overlay" id="restartOverlay" style="display:none;">
+      <h3 style="color:var(--lime);">GAME OVER</h3>
+      <p id="finalScore" style="color:var(--grey-1);font-size:0.75rem;"></p>
+      <button class="game-start-btn" id="restartBtn">[ RESTART ]</button>
+    </div>
+  </div>
+  <!-- Touch controls — shown only on mobile via CSS -->
+  <div id="touch-controls">
+    <button class="touch-btn" id="btn-left">◀</button>
+    <button class="touch-btn touch-fire" id="btn-fire">▲ FIRE</button>
+    <button class="touch-btn" id="btn-right">▶</button>
+  </div>
+  <p class="game-hiscore" id="liveScore" style="margin-top:0.75rem; display:none;">SCORE: <span id="scoreVal">0</span> &nbsp;|&nbsp; HI: <span id="hiVal">0</span></p>
+</div>
 
-                    <div class="mt-4">
-                        <a href="#projects"
-                            class="flex items-center justify-center gap-2 w-full sm:w-auto rounded-lg bg-primary px-8 py-3 text-center font-bold text-background-dark shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:shadow-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/50">
-                            Explore My Projects
-                            <span class="material-symbols-outlined">arrow_forward</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- FOOTER -->
+<footer>
+  <p>&gt;_ jjscott &nbsp;·&nbsp; © 2026 Joshua James Scott</p>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="https://github.com/Gelegrimbor" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/joshua-james-scott-11a616151" target="_blank">LinkedIn</a>
+    <a href="Joshua-James-Scott-Resume.pdf" download>Resume</a>
+  </div>
+</footer>
 
-    <!-- PROJECTS SECTION -->
-    <section id="projects" class="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 to-violet-700">
-        <div class="particles"></div>
-        <div class="scanlines"></div>
+<script>
+/* ══════════════════════════════
+   SCROLL TO TOP ON LOAD
+══════════════════════════════ */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('beforeunload', () => window.scrollTo(0, 0));
+window.scrollTo(0, 0);
 
-        <div class="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-            <div class="mb-12 text-center">
-                <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">Completed Quests</h1>
-                <p class="mt-4 text-lg text-indigo-200">My latest completed missions and ongoing adventures.</p>
-            </div>
+/* ══════════════════════════════
+   NAV shrink + active links
+══════════════════════════════ */
+const mainNav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('shrunk', window.scrollY > 60);
+  // active links
+  const sections = document.querySelectorAll('section[id]');
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) cur = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+}, { passive: true });
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <!-- Project 1: AI Voice Assistant -->
-                <div
-                    class="group relative flex flex-col rounded-lg border border-primary/20 bg-slate-900/50 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20">
-                    <div
-                        class="pixel-corner pixel-corner-tl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-tr text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-bl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-br text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
+/* ══════════════════════════════
+   INTERSECTION OBSERVER
+══════════════════════════════ */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 100);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
 
-                    <div class="mb-4 aspect-video w-full rounded-md border border-primary/20 bg-cover bg-center"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCipqKW9jbMpSmloIa99QAPNcDz-KZ_ZmcHn00DeGolPSNOW0MVY3-1ihPgz6UJMYN8Fvl6B9lMhZpcpjMeyHvor9Gz-2GR8Ga1GihnBI3X6kYDniYJE-v4KLdCXwizjYljrFVlDIy2GodOdJfwm6LhLVq2ucf7xBazaMalvIPU48rCpK3CC-GpkeXdUiz4A4PiUS3NnY9u2xJANZufH_bBndpYnxA390FWwsClgFtafh2iIN87RiGPw-E4naRWIB1tNMOK9qtBo0");'>
-                    </div>
+document.querySelectorAll(
+  '.stat-item, .timeline-item, .reveal, .proj-card, .cred-item, .contact-link'
+).forEach(el => io.observe(el));
 
-                    <div class="flex flex-grow flex-col">
-                        <h2 class="text-xl font-bold text-white">AI Voice Assistant</h2>
-                        <div class="my-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-400">
-                            <span>Quest Difficulty: ⭐⭐⭐⭐</span>
-                            <span
-                                class="inline-flex items-center rounded-full bg-green-500/10 px-3 py-1 text-xs font-semibold text-[#10b981]">COMPLETED</span>
-                        </div>
-                        <p class="mb-4 flex-grow text-sm leading-relaxed text-gray-300">A conversational AI that you can
-                            actually talk to. Speak naturally, get AI-powered responses, and hear them back in realistic
-                            voices.</p>
+/* ══════════════════════════════
+   COUNTER ANIMATION
+══════════════════════════════ */
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    let count = 0;
+    const step = Math.max(1, Math.floor(target / 20));
+    const interval = setInterval(() => {
+      count = Math.min(count + step, target);
+      el.textContent = count + suffix;
+      if (count >= target) clearInterval(interval);
+    }, 60);
+    counterObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
 
-                        <div class="mb-4">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Key Features
-                            </h3>
-                            <ul class="list-inside list-disc space-y-1 text-sm text-gray-300">
-                                <li>Real-time voice-to-text and text-to-voice</li>
-                                <li>Natural language processing via Claude AI</li>
-                                <li>Low-latency audio streaming</li>
-                            </ul>
-                        </div>
+/* ══════════════════════════════
+   PROJECT TAB SWITCH
+══════════════════════════════ */
+function switchTab(tab) {
+  const field = document.getElementById('grid-field');
+  const side  = document.getElementById('grid-side');
+  const btns  = document.querySelectorAll('.tab-btn');
+  if (tab === 'field') {
+    field.classList.add('active'); side.classList.remove('active');
+    btns[0].classList.add('active'); btns[1].classList.remove('active');
+  } else {
+    side.classList.add('active'); field.classList.remove('active');
+    btns[1].classList.add('active'); btns[0].classList.remove('active');
+  }
+}
 
-                        <div class="mb-auto">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Tech Stack</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">React</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">TypeScript</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">Claude AI</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">ElevenLabs</span>
-                            </div>
-                        </div>
-                    </div>
+/* ══════════════════════════════════════
+   SPACE INVADERS MINI GAME
+══════════════════════════════════════ */
+const canvas  = document.getElementById('gameCanvas');
+const ctx     = canvas.getContext('2d');
+const overlay = document.getElementById('gameOverlay');
+const startBtn= document.getElementById('startBtn');
+const scoreEl = document.getElementById('scoreVal');
+const hiEl    = document.getElementById('hiVal');
+const liveScore=document.getElementById('liveScore');
+const hiScoreDisplay = document.getElementById('hiScoreDisplay');
 
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-primary px-4 text-sm font-bold text-slate-900 shadow-lg shadow-primary/20 transition-all hover:bg-white hover:shadow-xl hover:shadow-white/20"
-                            href="https://jjs-voice-assistant.vercel.app" target="_blank" rel="noopener noreferrer">View
-                            Quest</a>
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-slate-700/50 px-4 text-sm font-bold text-gray-300 transition-colors hover:bg-slate-700 hover:text-white"
-                            href="https://github.com/Gelegrimbor/jjs-voice-assistant" target="_blank"
-                            rel="noopener noreferrer">View Code</a>
-                    </div>
-                </div>
+const W = canvas.width, H = canvas.height;
+const LIME = '#a3e635';
+const RED  = '#f87171';
 
-                <!-- Project 2: Cafe Finder -->
-                <div
-                    class="group relative flex flex-col rounded-lg border border-primary/20 bg-slate-900/50 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20">
-                    <div
-                        class="pixel-corner pixel-corner-tl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-tr text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-bl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-br text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
+let gameState = 'idle'; // idle | playing | over
+let score = 0;
+let hiScore = parseInt(localStorage.getItem('jjs_hi') || '0');
+hiEl.textContent = hiScore;
+hiScoreDisplay.textContent = 'HI-SCORE: ' + hiScore;
 
-                    <div class="mb-4 aspect-video w-full rounded-md border border-primary/20 bg-cover bg-center"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBGncH-oZMqaJpx5eidu2TJIL_bwR5NNJBCj6gx5NUwr2152xTKDbuOqDtTLVt7jcZt5XcVo1UFhHEqZ0DjOUM3E6kZyLL1jRMDRW5B98C-7JcYeiDvzLb8pyXwmMWn9YPtRGklUqGGJ4Tr98xinflBkHYAxMJyiAqgZDsVcwxDiSNxfC9kBKLtwXzMiYVHrbMzMz-Qxa44YaHDYwbwAGJcvpw2LF-ac4l5UkLQuJ8fg1GyD5qb0P4KmEU2aDYf0L_3NZc1ZSv4IG0");'>
-                    </div>
+// Player
+const player = { x: W/2, y: H - 36, w: 28, h: 18, speed: 4 };
+// Bullets
+let bullets = [];
+// Enemies
+let enemies = [];
+let enemyDir = 1;
+let lastShot = 0;
+let animId;
+let keys = {};
 
-                    <div class="flex flex-grow flex-col">
-                        <h2 class="text-xl font-bold text-white">Cafe Finder</h2>
-                        <div class="my-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-400">
-                            <span>Quest Difficulty: ⭐⭐⭐</span>
-                            <span
-                                class="inline-flex items-center rounded-full bg-green-500/10 px-3 py-1 text-xs font-semibold text-[#10b981]">COMPLETED</span>
-                        </div>
-                        <p class="mb-4 flex-grow text-sm leading-relaxed text-gray-300">Find cafes near you instantly
-                            using your location and Google Maps. Smart filtering ensures you only see actual cafes
-                            within 3km.</p>
+function spawnEnemies() {
+  enemies = [];
+  const cols = 8, rows = 3;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      enemies.push({ x: 60 + c * 58, y: 50 + r * 38, w: 22, h: 16, alive: true });
+    }
+  }
+}
 
-                        <div class="mb-4">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Key Features
-                            </h3>
-                            <ul class="list-inside list-disc space-y-1 text-sm text-gray-300">
-                                <li>Geolocation to find nearby places</li>
-                                <li>Integration with Google Maps & Places API</li>
-                                <li>Keyword filtering for accuracy</li>
-                            </ul>
-                        </div>
+function drawPlayer() {
+  ctx.fillStyle = LIME;
+  // body
+  ctx.fillRect(player.x - player.w/2, player.y, player.w, player.h - 6);
+  // cannon
+  ctx.fillRect(player.x - 3, player.y - 8, 6, 10);
+  // legs
+  ctx.fillRect(player.x - player.w/2, player.y + player.h - 6, 8, 6);
+  ctx.fillRect(player.x + player.w/2 - 8, player.y + player.h - 6, 8, 6);
+}
 
-                        <div class="mb-auto">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Tech Stack</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">JavaScript</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">HTML5</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">CSS3</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">Google Maps
-                                    API</span>
-                            </div>
-                        </div>
-                    </div>
+function drawEnemy(e) {
+  if (!e.alive) return;
+  ctx.fillStyle = RED;
+  ctx.fillRect(e.x, e.y, e.w, e.h - 4);
+  // antennas
+  ctx.fillRect(e.x + 3, e.y - 4, 3, 4);
+  ctx.fillRect(e.x + e.w - 6, e.y - 4, 3, 4);
+  // legs
+  ctx.fillRect(e.x, e.y + e.h - 4, 5, 4);
+  ctx.fillRect(e.x + e.w - 5, e.y + e.h - 4, 5, 4);
+}
 
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-primary px-4 text-sm font-bold text-slate-900 shadow-lg shadow-primary/20 transition-all hover:bg-white hover:shadow-xl hover:shadow-white/20"
-                            href="https://jjs-cafe-finder.vercel.app" target="_blank" rel="noopener noreferrer">View
-                            Quest</a>
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-slate-700/50 px-4 text-sm font-bold text-gray-300 transition-colors hover:bg-slate-700 hover:text-white"
-                            href="https://github.com/Gelegrimbor/jjs-cafe-finder" target="_blank"
-                            rel="noopener noreferrer">View Code</a>
-                    </div>
-                </div>
+function drawBullet(b) {
+  ctx.fillStyle = b.enemy ? RED : LIME;
+  ctx.fillRect(b.x - 1.5, b.y - 6, 3, 8);
+}
 
-                <!-- Project 3: QuestLog -->
-                <div
-                    class="group relative flex flex-col rounded-lg border border-primary/20 bg-slate-900/50 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20">
-                    <div
-                        class="pixel-corner pixel-corner-tl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-tr text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-bl text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
-                    <div
-                        class="pixel-corner pixel-corner-br text-primary/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    </div>
+function drawHUD() {
+  ctx.fillStyle = LIME;
+  ctx.font = '600 11px JetBrains Mono, monospace';
+  ctx.fillText('SCORE: ' + score, 12, 18);
+  ctx.fillText('HI: ' + hiScore, W - 90, 18);
+}
 
-                    <div class="mb-4 aspect-video w-full rounded-md border border-primary/20 bg-cover bg-center"
-                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8oedYH8jDdhYP850jZnzmo8w51cazFn-7KNxoNHXmucZQ68oWC3-96OM-qJ_W5_G-KLvvaCLQSUjdTyyB2mVbxg4clQse3W5DFZZVyt1DXYxw1zHJqMHoglwrvsQ6t55OvMtkTjlUw5b3zSM5OxLG5VrTjZpsa4H5N8auUOaoJj4i0VNiQZmnR0pVIKhGwBC1iBLmA4FegxkyGsh0QY_P0JOYVvH2eMskWhHbWtZoHrjzqLEanp6rxqP3i5GCUwnevoZCXy2T5w0");'>
-                    </div>
+function update() {
+  // Move player
+  if (keys['ArrowLeft']  || keys['a']) player.x = Math.max(player.w/2 + 4, player.x - player.speed);
+  if (keys['ArrowRight'] || keys['d']) player.x = Math.min(W - player.w/2 - 4, player.x + player.speed);
 
-                    <div class="flex flex-grow flex-col">
-                        <h2 class="text-xl font-bold text-white">QuestLog - Gamified Productivity</h2>
-                        <div class="my-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-400">
-                            <span>Quest Difficulty: ⭐⭐⭐⭐⭐</span>
-                            <span
-                                class="inline-flex items-center rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">IN
-                                PROGRESS</span>
-                        </div>
-                        <p class="mb-4 flex-grow text-sm leading-relaxed text-gray-300">Turn your boring to-do list into
-                            an RPG adventure. Complete tasks to gain XP and defeat enemies.</p>
+  // Move bullets
+  bullets.forEach(b => { b.y += b.vy; });
+  bullets = bullets.filter(b => b.y > -10 && b.y < H + 10);
 
-                        <div class="mb-4">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Key Features
-                            </h3>
-                            <ul class="list-inside list-disc space-y-1 text-sm text-gray-300">
-                                <li>Gamified task management with XP/rewards</li>
-                                <li>AI-generated quests and challenges</li>
-                                <li>User progression and level-up system</li>
-                            </ul>
-                        </div>
+  // Move enemies
+  let hitWall = false;
+  enemies.forEach(e => {
+    if (!e.alive) return;
+    e.x += enemyDir * 0.7;
+    if (e.x + e.w >= W - 8 || e.x <= 8) hitWall = true;
+  });
+  if (hitWall) {
+    enemyDir *= -1;
+    enemies.forEach(e => { if (e.alive) e.y += 14; });
+  }
 
-                        <div class="mb-auto">
-                            <h3 class="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Tech Stack</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">React</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">Firebase</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">Node.js</span>
-                                <span class="rounded bg-slate-800 px-2 py-1 text-xs text-indigo-300">OpenAI API</span>
-                            </div>
-                        </div>
-                    </div>
+  // Enemy shoots randomly
+  const alive = enemies.filter(e => e.alive);
+  if (alive.length && Math.random() < 0.008) {
+    const shooter = alive[Math.floor(Math.random() * alive.length)];
+    bullets.push({ x: shooter.x + shooter.w/2, y: shooter.y + shooter.h, vy: 3.5, enemy: true });
+  }
 
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-primary px-4 text-sm font-bold text-slate-900 shadow-lg shadow-primary/20 transition-all hover:bg-white hover:shadow-xl hover:shadow-white/20"
-                            href="https://drive.google.com/drive/folders/1uSgpCY6Kpl-o5ggIwVHal-d2y01RTV9k?usp=sharing"
-                            target="_blank" rel="noopener noreferrer">View
-                            Quest</a>
-                        <a class="flex h-10 flex-1 items-center justify-center rounded-md bg-slate-700/50 px-4 text-sm font-bold text-gray-300 transition-colors hover:bg-slate-700 hover:text-white"
-                            href="https://github.com/Gelegrimbor/QuestLog-ToDo-List" target="_blank"
-                            rel="noopener noreferrer">View Code</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  // Collision: player bullets vs enemies
+  bullets.filter(b => !b.enemy).forEach(b => {
+    enemies.forEach(e => {
+      if (!e.alive) return;
+      if (b.x > e.x && b.x < e.x + e.w && b.y > e.y && b.y < e.y + e.h) {
+        e.alive = false; b.y = -999;
+        score += 10; scoreEl.textContent = score;
+        if (score > hiScore) { hiScore = score; hiEl.textContent = hiScore; localStorage.setItem('jjs_hi', hiScore); }
+      }
+    });
+  });
 
-    <!-- CONTACT SECTION -->
-    <footer id="contact"
-        class="relative w-full flex flex-col items-center bg-gradient-to-br from-[#0f172a] to-[#7c3aed] text-slate-300 overflow-hidden py-16 md:py-24">
-        <div class="absolute inset-0 bg-black/20"></div>
+  // Collision: enemy bullets vs player
+  bullets.filter(b => b.enemy).forEach(b => {
+    if (b.x > player.x - player.w/2 && b.x < player.x + player.w/2 &&
+        b.y > player.y && b.y < player.y + player.h) {
+      endGame();
+    }
+  });
 
-        <div class="relative z-10 layout-container flex h-full grow flex-col w-full px-4 md:px-8">
-            <div class="layout-content-container flex flex-col max-w-4xl w-full mx-auto items-center text-center">
-                <h1
-                    class="text-white tracking-tight text-4xl md:text-5xl font-bold leading-tight pb-3 pt-6 font-display">
-                    Let's Connect</h1>
-                <p
-                    class="text-white text-lg font-normal leading-normal pb-4 pt-1 px-4 text-center max-w-xl font-display">
-                    Always open to new opportunities and interesting conversations.</p>
-                <p class="text-slate-400 text-base font-normal leading-normal pb-10 pt-1 px-4 text-center font-display">
-                    Currently based in Kuala Lumpur, Malaysia 🇲🇾</p>
+  // Enemies reach bottom
+  enemies.forEach(e => { if (e.alive && e.y + e.h >= player.y) endGame(); });
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl">
-                    <a class="group flex flex-col flex-1 gap-4 rounded-xl border border-primary/30 bg-[#1e293b] p-8 text-left transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary hover:shadow-2xl hover:shadow-primary/20"
-                        href="mailto:joshuas1177@gmail.com">
-                        <span class="material-symbols-outlined text-primary">mail</span>
-                        <div class="flex flex-col gap-1">
-                            <h2 class="text-white text-xl font-bold leading-tight font-display">Email</h2>
-                            <p class="text-slate-400 text-base font-normal leading-normal font-display">
-                                joshuas1177@gmail.com</p>
-                        </div>
-                    </a>
+  // All dead — next wave
+  if (alive.length === 0) spawnEnemies();
+}
 
-                    <a class="group flex flex-col flex-1 gap-4 rounded-xl border border-primary/30 bg-[#1e293b] p-8 text-left transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary hover:shadow-2xl hover:shadow-primary/20"
-                        href="tel:+60123287352">
-                        <span class="material-symbols-outlined text-primary">call</span>
-                        <div class="flex flex-col gap-1">
-                            <h2 class="text-white text-xl font-bold leading-tight font-display">Phone</h2>
-                            <p class="text-slate-400 text-base font-normal leading-normal font-display">+60123287352</p>
-                        </div>
-                    </a>
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  // bg grid dots
+  ctx.fillStyle = 'rgba(163,230,53,0.04)';
+  for (let x = 16; x < W; x += 32) for (let y = 16; y < H; y += 32) {
+    ctx.fillRect(x, y, 1, 1);
+  }
+  drawPlayer();
+  enemies.forEach(drawEnemy);
+  bullets.forEach(drawBullet);
+  drawHUD();
+}
 
-                    <a class="group flex flex-col flex-1 gap-4 rounded-xl border border-primary/30 bg-[#1e293b] p-8 text-left transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary hover:shadow-2xl hover:shadow-primary/20"
-                        href="https://github.com/Gelegrimbor" rel="noopener noreferrer" target="_blank">
-                        <svg aria-hidden="true" class="w-14 h-14 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                            <path clip-rule="evenodd"
-                                d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"
-                                fill-rule="evenodd"></path>
-                        </svg>
-                        <div class="flex flex-col gap-1">
-                            <h2 class="text-white text-xl font-bold leading-tight font-display">GitHub</h2>
-                            <p class="text-slate-400 text-base font-normal leading-normal font-display">@Gelegrimbor</p>
-                        </div>
-                    </a>
+function loop() {
+  if (gameState !== 'playing') return;
+  update(); draw();
+  animId = requestAnimationFrame(loop);
+}
 
-                    <a class="group flex flex-col flex-1 gap-4 rounded-xl border border-primary/30 bg-[#1e293b] p-8 text-left transition-all duration-300 ease-in-out hover:-translate-y-2 hover:border-primary hover:shadow-2xl hover:shadow-primary/20"
-                        href="https://linkedin.com/in/joshua-james-scott-11a616151" rel="noopener noreferrer"
-                        target="_blank">
-                        <svg aria-hidden="true" class="w-14 h-14 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z">
-                            </path>
-                        </svg>
-                        <div class="flex flex-col gap-1">
-                            <h2 class="text-white text-xl font-bold leading-tight font-display">LinkedIn</h2>
-                            <p class="text-slate-400 text-base font-normal leading-normal font-display">Joshua James
-                                Scott</p>
-                        </div>
-                    </a>
-                </div>
+function startGame() {
+  score = 0; scoreEl.textContent = 0; hiEl.textContent = hiScore;
+  player.x = W/2;
+  bullets = []; enemies = []; enemyDir = 1;
+  spawnEnemies();
+  gameState = 'playing';
+  overlay.style.display = 'none';
+  document.getElementById('restartOverlay').style.display = 'none';
+  liveScore.style.display = 'block';
+  loop();
+}
 
-                <div class="w-full max-w-lg my-12">
-                    <hr class="border-t border-primary/30" />
-                </div>
+function endGame() {
+  gameState = 'over';
+  cancelAnimationFrame(animId);
+  // draw final state
+  ctx.fillStyle = 'rgba(11,12,15,0.82)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = LIME;
+  ctx.font = 'bold 22px JetBrains Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('GAME OVER', W/2, H/2 - 28);
+  ctx.font = '13px JetBrains Mono, monospace';
+  ctx.fillStyle = '#9a9590';
+  ctx.fillText('SCORE: ' + score + '   HI: ' + hiScore, W/2, H/2 + 2);
+  ctx.textAlign = 'left';
+  liveScore.style.display = 'none';
+  hiScoreDisplay.textContent = 'HI-SCORE: ' + hiScore;
+  // Show restart button overlay
+  document.getElementById('finalScore').textContent = 'SCORE: ' + score + '   |   HI-SCORE: ' + hiScore;
+  const restartOverlay = document.getElementById('restartOverlay');
+  restartOverlay.style.display = 'flex';
+}
 
-                <div class="flex flex-col items-center gap-6">
-                    <nav>
-                        <p class="text-slate-300 text-base font-normal leading-normal px-4 text-center font-display">
-                            <a class="px-2 transition hover:text-primary" href="#projects">Projects</a> |
-                            <a class="px-2 transition hover:text-primary" href="#about">About</a> |
-                            <a class="px-2 transition hover:text-primary" href="#contact">Contact</a>
-                        </p>
-                    </nav>
+startBtn.onclick = startGame;
+document.getElementById('restartBtn').onclick = startGame;
 
-                    <div class="flex items-center justify-center gap-5">
-                        <a aria-label="GitHub" class="text-slate-400 transition hover:text-primary"
-                            href="https://github.com/Gelegrimbor" rel="noopener noreferrer" target="_blank">
-                            <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path clip-rule="evenodd"
-                                    d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"
-                                    fill-rule="evenodd"></path>
-                            </svg>
-                        </a>
-                        <a aria-label="LinkedIn" class="text-slate-400 transition hover:text-primary"
-                            href="https://linkedin.com/in/joshua-james-scott-11a616151" rel="noopener noreferrer"
-                            target="_blank">
-                            <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z">
-                                </path>
-                            </svg>
-                        </a>
-                        <a aria-label="Email" class="text-slate-400 transition hover:text-primary"
-                            href="mailto:joshuas1177@gmail.com">
-                            <span class="material-symbols-outlined !text-3xl">mail</span>
-                        </a>
-                    </div>
+/* Touch controls */
+const isMobile = () => window.innerWidth <= 600;
+function updateInstructions() {
+  const mob = isMobile();
+  document.getElementById('game-instructions').textContent =
+    mob ? 'Tap buttons below to move and shoot' : '← → to move · SPACE to shoot · survive the wave';
+  document.getElementById('overlay-instructions').textContent =
+    mob ? 'Use buttons below to play' : '← → Move | SPACE Shoot';
+}
+updateInstructions();
+window.addEventListener('resize', updateInstructions);
 
-                    <p class="text-slate-400 text-sm font-normal leading-normal px-4 text-center font-display">Built
-                        with React + Vite</p>
-                    <p class="text-slate-500 text-sm font-normal leading-normal px-4 text-center font-display">© 2025
-                        Joshua James Scott</p>
-                </div>
-            </div>
-        </div>
+const btnLeft  = document.getElementById('btn-left');
+const btnRight = document.getElementById('btn-right');
+const btnFire  = document.getElementById('btn-fire');
 
-        <a class="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-lg border-2 border-primary bg-[#1e293b] text-primary transition-all duration-300 ease-in-out hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/30"
-            href="#hero">
-            <span class="material-symbols-outlined !text-3xl">arrow_upward</span>
-        </a>
-    </footer>
+function touchStart(key) {
+  keys[key] = true;
+}
+function touchEnd(key) {
+  keys[key] = false;
+}
 
-    <!-- JavaScript for Navigation and Smooth Scrolling -->
-    <script>
-        // Show/hide navbar on scroll
-        let lastScrollTop = 0;
-        const navbar = document.getElementById('navbar');
+// Left
+btnLeft.addEventListener('touchstart',  e => { e.preventDefault(); touchStart('ArrowLeft'); btnLeft.classList.add('pressed'); }, { passive: false });
+btnLeft.addEventListener('touchend',    e => { e.preventDefault(); touchEnd('ArrowLeft');  btnLeft.classList.remove('pressed'); }, { passive: false });
+btnLeft.addEventListener('mousedown',   () => touchStart('ArrowLeft'));
+btnLeft.addEventListener('mouseup',     () => touchEnd('ArrowLeft'));
+btnLeft.addEventListener('mouseleave',  () => touchEnd('ArrowLeft'));
 
-        window.addEventListener('scroll', function () {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+// Right
+btnRight.addEventListener('touchstart', e => { e.preventDefault(); touchStart('ArrowRight'); btnRight.classList.add('pressed'); }, { passive: false });
+btnRight.addEventListener('touchend',   e => { e.preventDefault(); touchEnd('ArrowRight');  btnRight.classList.remove('pressed'); }, { passive: false });
+btnRight.addEventListener('mousedown',  () => touchStart('ArrowRight'));
+btnRight.addEventListener('mouseup',    () => touchEnd('ArrowRight'));
+btnRight.addEventListener('mouseleave', () => touchEnd('ArrowRight'));
 
-            if (scrollTop > 100) {
-                navbar.classList.remove('nav-hidden');
-                navbar.classList.add('nav-visible');
-            } else {
-                navbar.classList.add('nav-hidden');
-                navbar.classList.remove('nav-visible');
-            }
+// Fire
+btnFire.addEventListener('touchstart', e => {
+  e.preventDefault();
+  btnFire.classList.add('pressed');
+  if (gameState === 'playing') {
+    const now = Date.now();
+    if (now - lastShot > 300) {
+      bullets.push({ x: player.x, y: player.y - 8, vy: -7, enemy: false });
+      lastShot = now;
+    }
+  }
+}, { passive: false });
+btnFire.addEventListener('touchend', e => { e.preventDefault(); btnFire.classList.remove('pressed'); }, { passive: false });
+btnFire.addEventListener('mousedown', () => {
+  if (gameState === 'playing') {
+    const now = Date.now();
+    if (now - lastShot > 300) {
+      bullets.push({ x: player.x, y: player.y - 8, vy: -7, enemy: false });
+      lastShot = now;
+    }
+  }
+});
 
-            lastScrollTop = scrollTop;
-        });
+window.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if (e.key === ' ' && gameState === 'playing') {
+    e.preventDefault();
+    const now = Date.now();
+    if (now - lastShot > 300) {
+      bullets.push({ x: player.x, y: player.y - 8, vy: -7, enemy: false });
+      lastShot = now;
+    }
+  }
+});
+window.addEventListener('keyup', e => { keys[e.key] = false; });
 
-        // Highlight active section in navigation
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+// Draw idle screen
+(function idleDraw() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(163,230,53,0.04)';
+  for (let x = 16; x < W; x += 32) for (let y = 16; y < H; y += 32) ctx.fillRect(x, y, 1, 1);
+  // draw a static enemy for preview
+  ctx.fillStyle = '#f87171';
+  ctx.fillRect(W/2 - 11, 100, 22, 12);
+  ctx.fillRect(W/2 - 8, 96, 3, 4);
+  ctx.fillRect(W/2 + 5, 96, 3, 4);
+  ctx.fillRect(W/2 - 11, 108, 5, 4);
+  ctx.fillRect(W/2 + 6, 108, 5, 4);
+})();
+</script>
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
 </body>
-
 </html>
