@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Update the Sitemap URL to the real domain when it's live.
-Sitemap: https://example.com/sitemap-index.xml
+# Vercel URL for now; update to the custom domain when it's live.
+Sitemap: https://joshua-james-scott-portfolio.vercel.app/sitemap-index.xml

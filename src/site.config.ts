@@ -17,7 +17,7 @@ export const SITE = {
   description:
     "Full stack developer building web apps, n8n automation and AI tools end to end. Laravel, React, n8n, Claude. Kuala Lumpur.",
   /** Canonical site URL. Used for sitemap + OG tags. Set to the real domain when ready. */
-  url: "https://example.com",
+  url: "https://joshua-james-scott-portfolio.vercel.app",
   /** Author for meta tags. */
   author: "Joshua James Scott",
   /** Locale for OG tags. */
