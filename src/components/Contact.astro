@@ -1,0 +1,38 @@
+---
+/**
+ * Contact.astro — email, socials, download CV.
+ */
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import SocialLinks from "./SocialLinks.astro";
+import { CONTACT } from "../site.config";
+---
+
+<Section
+  id="contact"
+  index="06"
+  label="contact"
+  title="Get in touch"
+  intro="Open to full stack, automation and AI roles, or a good conversation about what you're building."
+>
+  <div class="flex flex-col gap-6" data-reveal>
+    <a
+      href={`mailto:${CONTACT.email}`}
+      class="link-underline inline-flex w-fit items-center gap-3 font-display text-2xl font-medium text-heading sm:text-3xl"
+    >
+      <Icon name="email" size={24} class="text-accent" />
+      {CONTACT.email}
+    </a>
+
+    <div class="flex flex-wrap items-center gap-4">
+      <a
+        href={CONTACT.cvHref}
+        class="inline-flex items-center gap-2 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-heading transition-colors duration-200 hover:border-accent hover:text-accent"
+      >
+        <Icon name="download" size={16} />
+        Download CV
+      </a>
+      <SocialLinks />
+    </div>
+  </div>
+</Section>

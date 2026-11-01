@@ -1,0 +1,20 @@
+---
+/**
+ * Arcade.astro — section wrapper for the games system. Mounts the Arcade
+ * switcher island lazily (client:visible → zero JS until scrolled into view).
+ */
+import Section from "./Section.astro";
+import Arcade from "./islands/Arcade.tsx";
+---
+
+<Section
+  id="arcade"
+  index="05"
+  label="arcade"
+  title="Arcade"
+  intro="A little playground. Everything here is opt-in and only loads when you scroll to it."
+>
+  <div data-reveal>
+    <Arcade client:visible />
+  </div>
+</Section>

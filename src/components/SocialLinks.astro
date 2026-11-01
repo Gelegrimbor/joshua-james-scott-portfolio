@@ -1,0 +1,30 @@
+---
+/**
+ * SocialLinks.astro — renders SOCIALS from site.config as icon links.
+ */
+import Icon from "./Icon.astro";
+import { SOCIALS } from "../site.config";
+
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<ul class={`flex items-center gap-1 ${className}`} role="list">
+  {
+    SOCIALS.map((s) => (
+      <li>
+        <a
+          href={s.href}
+          class="flex h-10 w-10 items-center justify-center rounded-md text-text transition-colors duration-200 hover:text-accent hover:bg-surface"
+          target={s.href.startsWith("http") ? "_blank" : undefined}
+          rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+          aria-label={s.label}
+        >
+          <Icon name={s.icon} size={19} title={s.label} />
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,151 @@
+---
+/**
+ * BaseLayout.astro — the single page shell.
+ * Owns <head> (SEO/OG/Twitter/favicons), the no-flash theme script, self-hosted
+ * fonts (via global.css), the skip link, and the scroll-reveal observer.
+ */
+import "../styles/global.css";
+import { SITE } from "../site.config";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path in /public, e.g. "/og.png". Falls back to SITE.ogImage. */
+  ogImage?: string;
+}
+
+const {
+  title = `${SITE.name} — ${SITE.title}`,
+  description = SITE.description,
+  ogImage = SITE.ogImage,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImageUrl = new URL(ogImage, SITE.url).href;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- No-flash theme: runs before paint. Dark is the CSS default, so only
+         light-mode users need an early attribute swap. try/catch = storage-safe. -->
+    <script is:inline>
+      (function () {
+        // Mark JS available so the scroll-reveal hidden state only applies with
+        // JS on (no-JS users see all content immediately).
+        document.documentElement.classList.add("js");
+        try {
+          var stored = localStorage.getItem("theme");
+          var prefersLight = window.matchMedia(
+            "(prefers-color-scheme: light)"
+          ).matches;
+          var theme = stored ? stored : prefersLight ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          /* localStorage blocked — keep the dark default. */
+        }
+      })();
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0e0e11" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    {SITE.twitter && <meta name="twitter:site" content={SITE.twitter} />}
+
+    <meta name="generator" content={Astro.generator} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-surface focus:px-4 focus:py-2 focus:text-heading focus:shadow-lg focus:outline focus:outline-2 focus:outline-accent"
+    >
+      Skip to content
+    </a>
+
+    <slot />
+
+    <!-- Scroll reveal: adds .is-visible to [data-reveal] once on view.
+         Defensive: above-the-fold items reveal immediately, and a safety timer
+         reveals anything left so content can NEVER get stuck invisible (e.g. a
+         throttled observer in a background tab). CSS already shows everything
+         under prefers-reduced-motion / no-JS, so this is purely additive. -->
+    <script is:inline>
+      (function () {
+        var els = Array.prototype.slice.call(
+          document.querySelectorAll("[data-reveal]")
+        );
+        if (els.length === 0) return;
+
+        function reveal(el) {
+          el.classList.add("is-visible");
+        }
+        function revealAll() {
+          els.forEach(reveal);
+        }
+
+        if (!("IntersectionObserver" in window)) {
+          revealAll();
+          return;
+        }
+
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                reveal(entry.target);
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -10% 0px", threshold: 0.08 }
+        );
+
+        els.forEach(function (el) {
+          io.observe(el);
+        });
+
+        // Reveal what's already on screen right away (don't wait for a scroll).
+        requestAnimationFrame(function () {
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          els.forEach(function (el) {
+            if (el.getBoundingClientRect().top < vh * 0.95) reveal(el);
+          });
+        });
+
+        // Failsafe: never leave content hidden.
+        setTimeout(revealAll, 2500);
+      })();
+    </script>
+
+    <!-- Smooth scrolling (Lenis) + hero↔about glide. Bundled module; the script
+         itself no-ops under prefers-reduced-motion. -->
+    <script>
+      import "../scripts/smooth-scroll.ts";
+    </script>
+  </body>
+</html>

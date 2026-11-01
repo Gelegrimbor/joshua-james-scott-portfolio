@@ -1,0 +1,35 @@
+---
+/**
+ * index.astro — the single, anchored page. Assembles every section in order.
+ * Islands are the only client JS: ProjectFilter (client:visible),
+ * Arcade (client:visible), AudioPlayer (client:idle). Everything else is static.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
+import ArcadeSection from "../components/Arcade.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import AudioPlayer from "../components/islands/AudioPlayer.tsx";
+import { AUDIO, ARCADE } from "../site.config";
+---
+
+<BaseLayout>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <About />
+    <Experience />
+    <Projects />
+    <Skills />
+    {ARCADE.enabled && <ArcadeSection />}
+    <Contact />
+  </main>
+  <Footer />
+
+  {AUDIO.enabled && <AudioPlayer client:idle />}
+</BaseLayout>

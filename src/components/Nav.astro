@@ -1,0 +1,93 @@
+---
+/**
+ * Nav.astro — sticky, anchored, single-page navigation.
+ * Desktop: horizontal links with animated underline. Mobile: a no-JS
+ * <details> disclosure menu (a tiny script closes it on link click).
+ */
+import Icon from "./Icon.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import { NAV_LINKS, SITE } from "../site.config";
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border/80 bg-bg/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
+    aria-label="Primary"
+  >
+    <!-- Brand -->
+    <a
+      href="#top"
+      class="group flex items-center gap-2 font-mono text-sm font-medium text-heading"
+      aria-label={`${SITE.name} — back to top`}
+    >
+      <span class="text-accent">&gt;_</span>
+      <span class="hidden sm:inline">{SITE.name}</span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden items-center gap-7 md:flex" role="list">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="link-underline text-sm text-text transition-colors duration-200 hover:text-heading"
+            >
+              <span class="font-mono text-xs text-accent">{link.index}</span>
+              <span class="ml-1.5">{link.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-1">
+      <ThemeToggle />
+
+      <!-- Mobile disclosure menu -->
+      <details id="mobile-nav" class="relative md:hidden">
+        <summary
+          class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-md text-text transition-colors hover:text-accent hover:bg-surface"
+          aria-label="Open navigation menu"
+        >
+          <Icon name="chevron-down" size={20} />
+        </summary>
+        <ul
+          class="absolute right-0 top-12 w-52 rounded-card border border-border bg-surface p-2 shadow-xl"
+          role="list"
+        >
+          {
+            NAV_LINKS.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text transition-colors hover:bg-bg hover:text-heading"
+                >
+                  <span class="font-mono text-xs text-accent">
+                    {link.index}
+                  </span>
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<script is:inline>
+  // Progressive enhancement: close the mobile menu after a link is tapped.
+  (function () {
+    var menu = document.getElementById("mobile-nav");
+    if (!menu) return;
+    menu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () {
+        menu.removeAttribute("open");
+      });
+    });
+  })();
+</script>

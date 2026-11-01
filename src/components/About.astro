@@ -1,0 +1,40 @@
+---
+/**
+ * About.astro — short bio.
+ */
+import Section from "./Section.astro";
+---
+
+<Section id="about" index="01" label="about" title="About">
+  <div class="grid gap-10 md:grid-cols-[1.5fr_1fr]" data-reveal>
+    <div class="prose-measure space-y-4 text-base sm:text-lg">
+      <p>
+        I'm a full stack developer based in Kuala Lumpur. I build internal
+        systems and automation for the web platforms of 5 radio stations at
+        Media Prima Audio, from Laravel apps and n8n pipelines to the cloud
+        servers they run on.
+      </p>
+      <p>
+        I came into tech through a 12-week full stack bootcamp and went straight
+        into production work. I care about the whole picture: not just whether
+        it works, but whether it holds up, with error handling, fallbacks and
+        security built in from the start.
+      </p>
+    </div>
+
+    <dl class="space-y-4 font-mono text-sm">
+      <div class="flex justify-between gap-4 border-b border-border pb-3">
+        <dt class="text-text">location</dt>
+        <dd class="text-heading">Kuala Lumpur, MY</dd>
+      </div>
+      <div class="flex justify-between gap-4 border-b border-border pb-3">
+        <dt class="text-text">focus</dt>
+        <dd class="text-heading">Full stack, automation & AI</dd>
+      </div>
+      <div class="flex justify-between gap-4 border-b border-border pb-3">
+        <dt class="text-text">status</dt>
+        <dd class="text-heading">Open to new opportunities</dd>
+      </div>
+    </dl>
+  </div>
+</Section>

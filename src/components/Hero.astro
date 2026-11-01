@@ -1,0 +1,248 @@
+---
+/**
+ * Hero.astro — name, title, intro, signature ">" terminal prompt (one-time
+ * typing effect + blinking cursor), CTAs, status badge, socials.
+ * All copy comes from site.config (HERO / SITE / CONTACT).
+ */
+import Icon from "./Icon.astro";
+import StatusPill from "./StatusPill.astro";
+import SocialLinks from "./SocialLinks.astro";
+import { SITE, HERO, NOW_BUILDING } from "../site.config";
+
+// Split the prompt output on " · " so each phrase can be kept non-breaking —
+// the line only ever wraps at a separator, never mid-phrase.
+const outputSegments = HERO.promptOutput.split(" · ");
+
+// Split the title at " + " so on mobile it breaks before the "+"
+// ("Full Stack Developer" / "+ AI & Automation Engineer"); one line from sm up.
+const titlePlusIndex = SITE.title.indexOf(" + ");
+const titleHead =
+  titlePlusIndex === -1 ? SITE.title : SITE.title.slice(0, titlePlusIndex);
+const titleTail =
+  titlePlusIndex === -1 ? "" : SITE.title.slice(titlePlusIndex + 1); // "+ …"
+---
+
+<section
+  id="top"
+  class="relative overflow-hidden"
+  aria-labelledby="hero-name"
+>
+  <!-- Subtle editorial grid backdrop (decorative, token-driven) -->
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div
+    class="hero-fade mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col justify-center px-5 pt-16 pb-24 sm:px-8"
+  >
+    <!-- Name + title: full width, one line on desktop -->
+    <div data-reveal>
+      <h1
+        id="hero-name"
+        class="text-[clamp(2.75rem,8vw,5.5rem)] font-semibold leading-[0.95]"
+      >
+        {SITE.name}
+      </h1>
+
+      <p
+        class="mt-4 font-display text-xl font-medium text-heading sm:text-2xl"
+      >
+        {
+          titleTail ? (
+            <Fragment>
+              <span>{titleHead}</span>{" "}
+              <span class="block sm:inline">{titleTail}</span>
+            </Fragment>
+          ) : (
+            SITE.title
+          )
+        }
+      </p>
+    </div>
+
+    <!-- Body: intro + whoami + buttons (left) · card (right) · status (below left) -->
+    <div
+      class="mt-8 flex flex-col gap-8 lg:mt-10 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6"
+    >
+      <!-- Left, row 1: intro, prompt, CTAs -->
+      <div class="lg:col-start-1 lg:row-start-1" data-reveal>
+        <p class="prose-measure text-base sm:text-lg">
+          {HERO.intro}
+        </p>
+
+        <!-- Signature terminal prompt (sizes to content) -->
+        <div class="card mt-7 w-fit max-w-full px-4 py-3 font-mono text-sm">
+          <div class="flex items-center gap-2">
+            <span class="text-accent select-none">&gt;</span>
+            <span id="hero-typed" data-command={HERO.promptCommand}
+              >{HERO.promptCommand}</span
+            >
+            <span class="cursor" aria-hidden="true"></span>
+          </div>
+          <p id="hero-output" class="mt-2 pl-4 text-text">
+            {
+              outputSegments.map((seg, i) => (
+                <Fragment>
+                  {i > 0 && <span> · </span>}
+                  <span class="whitespace-nowrap">{seg}</span>
+                </Fragment>
+              ))
+            }
+          </p>
+        </div>
+
+        <!-- CTAs -->
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a
+            href={HERO.ctas.primaryHref}
+            class="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-accent-contrast transition-colors duration-200 hover:bg-accent-hover"
+          >
+            {HERO.ctas.primaryLabel}
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+          <a
+            href={HERO.ctas.secondaryHref}
+            class="inline-flex items-center gap-2 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-heading transition-colors duration-200 hover:border-accent hover:text-accent"
+          >
+            <Icon name="download" size={16} />
+            {HERO.ctas.secondaryLabel}
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: "Now building" card — top-aligned with the intro (desktop);
+           stacks below the buttons on mobile -->
+      <div
+        class="card w-full p-6 lg:col-start-2 lg:row-start-1 lg:max-w-sm lg:justify-self-end lg:self-start"
+        data-reveal
+      >
+        <div class="flex items-start justify-between gap-3">
+          <span class="font-mono text-xs text-accent">{NOW_BUILDING.label}</span
+          >
+          <StatusPill tone={NOW_BUILDING.status} />
+        </div>
+        <h3 class="mt-3 font-display text-lg font-semibold text-heading">
+          {NOW_BUILDING.title}
+        </h3>
+        <p class="mt-2 text-sm leading-relaxed text-text">
+          {NOW_BUILDING.line}
+        </p>
+        <ul class="mt-4 flex flex-wrap gap-1.5" role="list">
+          {
+            NOW_BUILDING.stack.map((tech) => (
+              <li class="rounded border border-border bg-bg px-1.5 py-0.5 font-mono text-[0.7rem] text-text">
+                {tech}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Left, row 2: status + socials -->
+      <div
+        class="flex flex-wrap items-center gap-4 lg:col-start-1 lg:row-start-2"
+        data-reveal
+      >
+        <StatusPill
+          tone={HERO.statusBadge.tone}
+          label={HERO.statusBadge.label}
+        />
+        <SocialLinks />
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll cue (bottom-centre; hides once scrolled) -->
+  <a href="#about" class="scroll-cue" aria-label="Scroll to About">
+    <span class="scroll-cue-label">scroll</span>
+    <span class="scroll-cue-line" aria-hidden="true"></span>
+  </a>
+</section>
+
+<style>
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(
+      ellipse 70% 60% at 50% 0%,
+      #000 0%,
+      transparent 75%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 70% 60% at 50% 0%,
+      #000 0%,
+      transparent 75%
+    );
+    opacity: 0.5;
+    pointer-events: none;
+  }
+</style>
+
+<script is:inline>
+  // One-time hero typing effect. Server-renders the command already (no-JS
+  // safe); this only re-types it when motion is allowed.
+  (function () {
+    var typed = document.getElementById("hero-typed");
+    if (!typed) return;
+    var reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    var text = typed.getAttribute("data-command") || typed.textContent || "";
+    if (reduce) return; // leave the fully-rendered command in place
+
+    typed.textContent = "";
+    var i = 0;
+    var timer = setInterval(function () {
+      typed.textContent = text.slice(0, ++i);
+      if (i >= text.length) clearInterval(timer);
+    }, 60);
+  })();
+</script>
+
+<script is:inline>
+  // Scroll cue hide (always) + hero fade/drift fallback (only when CSS
+  // scroll-driven animations are unsupported). One passive, rAF-throttled
+  // listener. transform/opacity only; fully disabled under reduced motion.
+  (function () {
+    var reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    var fade = document.querySelector(".hero-fade");
+    var supportsSDA =
+      window.CSS &&
+      CSS.supports &&
+      CSS.supports("animation-timeline", "scroll()");
+    var useJsFade = !reduce && !!fade && !supportsSDA;
+    var ticking = false;
+
+    function update() {
+      var y =
+        window.scrollY || document.documentElement.scrollTop || 0;
+      if (y > 30) {
+        document.documentElement.setAttribute("data-scrolled", "");
+      } else {
+        document.documentElement.removeAttribute("data-scrolled");
+      }
+      if (useJsFade) {
+        var p = Math.min(1, y / (window.innerHeight * 0.6));
+        fade.style.opacity = (1 - 0.7 * p).toFixed(3);
+        fade.style.transform = "translateY(" + (-40 * p).toFixed(1) + "px)";
+      }
+      ticking = false;
+    }
+
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  })();
+</script>

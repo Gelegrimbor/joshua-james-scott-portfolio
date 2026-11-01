@@ -1,0 +1,48 @@
+---
+/**
+ * Projects.astro — loads the `projects` collection, sorts featured-first then
+ * newest-first, and hands serializable data to the ProjectFilter island
+ * (hydrated client:visible — zero cost until scrolled into view).
+ */
+import { getCollection } from "astro:content";
+import Section from "./Section.astro";
+import ProjectFilter, {
+  type ProjectItem,
+} from "./islands/ProjectFilter.tsx";
+
+const entries = await getCollection("projects");
+
+const projects: ProjectItem[] = entries
+  .map((entry) => ({
+    slug: entry.id,
+    title: entry.data.title,
+    category: entry.data.category,
+    summary: entry.data.summary,
+    highlights: entry.data.highlights,
+    stack: entry.data.stack,
+    status: entry.data.status,
+    featured: entry.data.featured,
+    demoUrl: entry.data.demoUrl,
+    sourceUrl: entry.data.sourceUrl,
+  }))
+  .sort((a, b) => {
+    // Featured first…
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
+    // …then newest first by date.
+    const da = entries.find((e) => e.id === a.slug)!.data.date.getTime();
+    const db = entries.find((e) => e.id === b.slug)!.data.date.getTime();
+    return db - da;
+  });
+---
+
+<Section
+  id="projects"
+  index="03"
+  label="projects"
+  title="Projects"
+  intro="Production systems, automation and AI apps — from work and from my own side projects."
+>
+  <div data-reveal>
+    <ProjectFilter client:visible projects={projects} />
+  </div>
+</Section>

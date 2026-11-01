@@ -1,0 +1,30 @@
+---
+/**
+ * Skills.astro — grouped skill areas from data/skills.ts (mono chips).
+ */
+import Section from "./Section.astro";
+import { SKILL_GROUPS } from "../data/skills";
+---
+
+<Section id="skills" index="04" label="skills" title="Skills">
+  <div class="grid gap-6 sm:grid-cols-2">
+    {
+      SKILL_GROUPS.map((group, i) => (
+        <div
+          class="card p-6"
+          data-reveal
+          style={`transition-delay:${i * 60}ms`}
+        >
+          <h3 class="font-mono text-sm text-accent">{group.area}</h3>
+          <ul class="mt-4 flex flex-wrap gap-2" role="list">
+            {group.items.map((item) => (
+              <li class="rounded-md border border-border bg-bg px-2.5 py-1 font-mono text-xs text-text">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</Section>

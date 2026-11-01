@@ -1,0 +1,38 @@
+---
+/**
+ * Icon.astro — inline SVG icons (no emoji, no icon font).
+ * Icon data lives in ./icons.ts (kept out of frontmatter so the SVG strings
+ * aren't parsed as template HTML). Add icons there.
+ */
+import { ICONS, type IconName } from "./icons";
+
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+  /** Provide a label to expose the icon to AT; omit to hide it decoratively. */
+  title?: string;
+}
+
+const { name, size = 20, class: className = "", title } = Astro.props;
+
+const icon = ICONS[name];
+const decorative = !title;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill={icon.kind === "fill" ? "currentColor" : "none"}
+  stroke={icon.kind === "stroke" ? "currentColor" : "none"}
+  stroke-width={icon.kind === "stroke" ? 2 : undefined}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  role={decorative ? "presentation" : "img"}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={title}
+  set:html={icon.body}
+/>

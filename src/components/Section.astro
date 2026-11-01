@@ -1,0 +1,35 @@
+---
+/**
+ * Section.astro — shared section shell: mono eyebrow ("01 // label"),
+ * heading, optional intro, and a content slot. Handles the anchor id and
+ * consistent editorial spacing.
+ */
+interface Props {
+  id: string;
+  /** Zero-padded index, e.g. "01". */
+  index: string;
+  /** Eyebrow label, e.g. "experience". */
+  label: string;
+  /** Section heading. */
+  title: string;
+  /** Optional short intro under the heading. */
+  intro?: string;
+  class?: string;
+}
+
+const { id, index, label, title, intro, class: className = "" } = Astro.props;
+---
+
+<section
+  id={id}
+  class={`mx-auto w-full max-w-5xl px-5 py-[var(--spacing-section)] sm:px-8 ${className}`}
+>
+  <header class="mb-10" data-reveal>
+    <p class="eyebrow mb-3">
+      {index} <span class="opacity-50">//</span> {label}
+    </p>
+    <h2 class="text-3xl font-semibold sm:text-4xl">{title}</h2>
+    {intro && <p class="prose-measure mt-4 text-base sm:text-lg">{intro}</p>}
+  </header>
+  <slot />
+</section>

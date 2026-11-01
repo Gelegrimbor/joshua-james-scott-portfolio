@@ -1,0 +1,46 @@
+---
+/**
+ * StatusPill.astro — mono status chip with a coloured dot.
+ * Colour is driven entirely by the --status-* tokens (no hardcoded hex).
+ */
+import { STATUS_LABELS, type StatusTone } from "../site.config";
+
+interface Props {
+  tone: StatusTone;
+  /** Override the default label from site.config. */
+  label?: string;
+}
+
+const { tone, label } = Astro.props;
+const text = label ?? STATUS_LABELS[tone];
+---
+
+<span class="pill" style={`--pill: var(--status-${tone});`}>
+  <span class="dot" aria-hidden="true"></span>
+  {text}
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    padding: 0.3rem 0.55rem;
+    border-radius: var(--radius-pill);
+    color: var(--pill);
+    background: color-mix(in srgb, var(--pill) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--pill) 30%, transparent);
+    white-space: nowrap;
+  }
+  .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--pill);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--pill) 20%, transparent);
+  }
+</style>

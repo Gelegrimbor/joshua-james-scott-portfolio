@@ -1,0 +1,492 @@
+/* ==================================================================
+ * global.css — the ONE place design tokens live.
+ *
+ * Order matters: all @import must come first (CSS spec). Self-hosted
+ * variable fonts (Fontsource) then Tailwind v4.
+ * No component file may hardcode a hex, font-family, or raw shadow —
+ * everything resolves through the tokens defined here.
+ * ================================================================== */
+
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+/* Tell Tailwind that "dark" variants activate via the data-theme attribute
+   set on <html> (we drive theming manually, not with the default media query). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------ *
+ * 1. Non-colour design tokens (fonts, radii, type scale, motion)
+ *    These never change between themes, so they live in @theme directly
+ *    and generate utilities (font-sans, font-display, font-mono, rounded-*).
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+
+  --radius-card: 0.75rem;
+  --radius-pill: 9999px;
+
+  /* Editorial rhythm — vertical section padding (top & bottom).
+     Mobile base here; bumped up on ≥640px below. Single token, used everywhere
+     (Section.astro), so the whole page's rhythm stays consistent. */
+  --spacing-section: 3rem;
+
+  /* Motion — one shared vocabulary. Subtle tier only. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 500ms;
+}
+
+/* Roomier section rhythm on tablet/desktop (5rem = py-20). */
+@media (min-width: 640px) {
+  :root {
+    --spacing-section: 5rem;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Semantic colour tokens — the toggle target.
+ *    Dark is the default (:root). Light overrides under [data-theme="light"].
+ *    Redefined here (not in @theme) so a runtime attribute swap re-cascades.
+ * ------------------------------------------------------------------ */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e0e11; /* soft near-black charcoal (not pure black) */
+  --surface: #16161b; /* cards */
+  --border: #26262e;
+  --text: #a1a1aa; /* muted grey body */
+  --heading: #f4f4f5; /* near-white */
+  --accent: #2dd4bf; /* cyan-teal — the ONE accent */
+  --accent-hover: #14b8a6;
+  --accent-contrast: #06231f; /* text on an accent-filled surface */
+
+  /* Status pills only */
+  --status-live: #4ade80;
+  --status-in-progress: #fbbf24;
+  --status-prototype: #38bdf8;
+  --status-private: #71717a;
+
+  /* Derived, theme-aware helpers */
+  --ring: color-mix(in srgb, var(--accent) 55%, transparent);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.5);
+  --grid-line: color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --border: #e4e4e7;
+  --text: #52525b;
+  --heading: #18181b;
+  --accent: #0d9488; /* darker teal for AA contrast on light */
+  --accent-hover: #0f766e;
+  --accent-contrast: #ffffff;
+
+  --status-live: #16a34a;
+  --status-in-progress: #d97706;
+  --status-prototype: #0284c7;
+  --status-private: #71717a;
+
+  --ring: color-mix(in srgb, var(--accent) 45%, transparent);
+  --shadow-card: 0 1px 2px rgb(24 24 27 / 0.06), 0 10px 30px -16px rgb(24 24 27 / 0.18);
+  --grid-line: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Map semantic vars → Tailwind colour utilities.
+ *    `inline` means utilities reference var(--…) directly, so toggling
+ *    data-theme updates bg-bg / text-heading / border-border live.
+ * ------------------------------------------------------------------ */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-heading: var(--heading);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+
+  --color-status-live: var(--status-live);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-prototype: var(--status-prototype);
+  --color-status-private: var(--status-private);
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Base layer
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    /* No CSS smooth-scroll: Lenis owns smoothness (and forces scroll-behavior
+       auto while active). Under reduced motion / no-Lenis, jumps are instant. */
+    scroll-padding-top: 5rem; /* offset for the sticky nav on anchor jumps */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis smooth-scroll helper classes (applied to <html> while active). */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.7; /* generous for body readability */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-synthesis-weight: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--heading);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance; /* avoid orphan heading lines */
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. Never removed. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
+    color: var(--heading);
+  }
+
+  ::placeholder {
+    color: color-mix(in srgb, var(--text) 70%, transparent);
+  }
+
+  /* Themed, restrained scrollbar */
+  * {
+    scrollbar-color: var(--border) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Reusable primitives (kept tiny; utilities do most of the work)
+ * ------------------------------------------------------------------ */
+@layer components {
+  /* Constrain body copy to ~70ch for readability */
+  .prose-measure {
+    max-width: 70ch;
+  }
+
+  /* Mono section eyebrow, e.g. "01 // experience" */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    color: var(--accent);
+  }
+
+  /* Blinking terminal cursor */
+  .cursor {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1.05em;
+    translate: 0 0.14em;
+    background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  /* Animated underline for nav links */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: var(--accent);
+    scale: 0 1;
+    transform-origin: left;
+    transition: scale var(--duration-base) var(--ease-out-soft);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after,
+  .link-underline[aria-current="true"]::after {
+    scale: 1 1;
+  }
+
+  /* Range slider thumb (audio volume) — token-driven, cross-browser */
+  .audio-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--surface);
+    cursor: pointer;
+  }
+  .audio-range::-moz-range-thumb {
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+  }
+
+  /* Card hover-lift */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    transition:
+      transform var(--duration-base) var(--ease-out-soft),
+      border-color var(--duration-base) var(--ease-out-soft),
+      box-shadow var(--duration-base) var(--ease-out-soft);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. Motion — scroll reveal + keyframes. Subtle tier only.
+ * ------------------------------------------------------------------ */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Elements marked data-reveal fade-and-rise when scrolled into view.
+   A tiny IntersectionObserver in BaseLayout adds .is-visible.
+   The hidden initial state is gated behind `.js` (added before paint) so
+   that with JS disabled ALL content stays fully visible — no reliance on JS
+   to reveal content. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out-soft),
+    transform var(--duration-slow) var(--ease-out-soft);
+  will-change: opacity, transform;
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero: fade + drift up as the first screen scrolls away.
+   Prefers CSS scroll-driven animation; a JS fallback in Hero.astro covers
+   browsers without it. transform/opacity only; gated to no-preference. */
+@keyframes hero-exit {
+  to {
+    opacity: 0.3;
+    transform: translateY(-40px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-fade {
+      animation: hero-exit linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 60vh;
+      will-change: opacity, transform;
+    }
+  }
+}
+
+/* Scroll cue — bottom-centre of the hero; hides once the page is scrolled. */
+.scroll-cue {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  transition: opacity var(--duration-base) var(--ease-out-soft);
+}
+.scroll-cue:hover {
+  color: var(--accent);
+}
+.scroll-cue-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+}
+.scroll-cue-line {
+  position: relative;
+  width: 1px;
+  height: 42px;
+  background: var(--border);
+  overflow: hidden;
+}
+.scroll-cue-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, var(--accent));
+  animation: scroll-cue-run 1.9s var(--ease-out-soft) infinite;
+}
+@keyframes scroll-cue-run {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+}
+:root[data-scrolled] .scroll-cue {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Audio player "vinyl" cover: rotates while playing and pauses in place on
+   pause (animation-play-state, not removed), with a pulsing teal glow ring.
+   The pulse uses transform/opacity only; the glow colour is a static shadow. */
+@keyframes vinyl-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes vinyl-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.14);
+  }
+}
+.vinyl {
+  animation: vinyl-rotate 12s linear infinite;
+  animation-play-state: paused; /* .is-playing toggles running ↔ paused-in-place */
+  will-change: transform;
+}
+.is-playing .vinyl {
+  animation-play-state: running;
+}
+.vinyl-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 9999px;
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--accent) 60%, transparent);
+  opacity: 0; /* hidden unless .is-playing animates it */
+  pointer-events: none;
+}
+.is-playing .vinyl-glow {
+  animation: vinyl-glow-pulse 2.4s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * 7. Reduced-motion kill switch — honour user preference globally.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .cursor {
+    animation: none;
+    opacity: 1;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+  /* No hero fade/drift and no animated cue segment under reduced motion. */
+  .hero-fade {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .scroll-cue-line::after {
+    display: none;
+  }
+  /* No vinyl spin or glow pulse under reduced motion. */
+  .vinyl {
+    animation: none !important;
+  }
+  .vinyl-glow {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
