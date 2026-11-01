@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Vercel URL for now; update to the custom domain when it's live.
-Sitemap: https://joshua-james-scott-portfolio.vercel.app/sitemap-index.xml
+# Sitemap for crawlers.
+Sitemap: https://joshuajs.gelegrimbor.com/sitemap-index.xml
